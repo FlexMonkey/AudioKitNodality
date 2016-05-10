@@ -12,7 +12,36 @@
 		3EF7A13D1CE0EE460016FA62 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EF7A13B1CE0EE460016FA62 /* Main.storyboard */; };
 		3EF7A13F1CE0EE460016FA62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EF7A13E1CE0EE460016FA62 /* Assets.xcassets */; };
 		3EF7A1421CE0EE460016FA62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EF7A1401CE0EE460016FA62 /* LaunchScreen.storyboard */; };
+		3EF7A14A1CE0EF2A0016FA62 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EF7A1491CE0EF2A0016FA62 /* AudioKit.framework */; };
+		3EF7A14B1CE0EF2A0016FA62 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3EF7A1491CE0EF2A0016FA62 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3EF7A15F1CE0F5440016FA62 /* SliderWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A14F1CE0F5440016FA62 /* SliderWidget.swift */; };
+		3EF7A1601CE0F5440016FA62 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1511CE0F5440016FA62 /* Classes.swift */; };
+		3EF7A1611CE0F5440016FA62 /* FilterControlsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1521CE0F5440016FA62 /* FilterControlsComponent.swift */; };
+		3EF7A1621CE0F5440016FA62 /* InputOutputRenderers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1531CE0F5440016FA62 /* InputOutputRenderers.swift */; };
+		3EF7A1631CE0F5440016FA62 /* ItemRenderers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1541CE0F5440016FA62 /* ItemRenderers.swift */; };
+		3EF7A1641CE0F5440016FA62 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1551CE0F5440016FA62 /* Model.swift */; };
+		3EF7A1651CE0F5440016FA62 /* NodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1561CE0F5440016FA62 /* NodeType.swift */; };
+		3EF7A1661CE0F5440016FA62 /* NodeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1571CE0F5440016FA62 /* NodeValue.swift */; };
+		3EF7A1671CE0F5440016FA62 /* ShinpuruNodeDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1591CE0F5440016FA62 /* ShinpuruNodeDataTypes.swift */; };
+		3EF7A1681CE0F5440016FA62 /* SNNodesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A15A1CE0F5440016FA62 /* SNNodesContainer.swift */; };
+		3EF7A1691CE0F5440016FA62 /* SNNodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A15B1CE0F5440016FA62 /* SNNodeWidget.swift */; };
+		3EF7A16A1CE0F5440016FA62 /* SNRelationshipCurvesLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A15C1CE0F5440016FA62 /* SNRelationshipCurvesLayer.swift */; };
+		3EF7A16B1CE0F5440016FA62 /* SNView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A15D1CE0F5440016FA62 /* SNView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3EF7A14C1CE0EF2A0016FA62 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3EF7A14B1CE0EF2A0016FA62 /* AudioKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3EF7A1341CE0EE460016FA62 /* AudioKitNodality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioKitNodality.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,6 +51,20 @@
 		3EF7A13E1CE0EE460016FA62 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3EF7A1411CE0EE460016FA62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3EF7A1431CE0EE460016FA62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3EF7A1491CE0EF2A0016FA62 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
+		3EF7A14F1CE0F5440016FA62 /* SliderWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderWidget.swift; sourceTree = "<group>"; };
+		3EF7A1511CE0F5440016FA62 /* Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Classes.swift; sourceTree = "<group>"; };
+		3EF7A1521CE0F5440016FA62 /* FilterControlsComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterControlsComponent.swift; sourceTree = "<group>"; };
+		3EF7A1531CE0F5440016FA62 /* InputOutputRenderers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputOutputRenderers.swift; sourceTree = "<group>"; };
+		3EF7A1541CE0F5440016FA62 /* ItemRenderers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemRenderers.swift; sourceTree = "<group>"; };
+		3EF7A1551CE0F5440016FA62 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		3EF7A1561CE0F5440016FA62 /* NodeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeType.swift; sourceTree = "<group>"; };
+		3EF7A1571CE0F5440016FA62 /* NodeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeValue.swift; sourceTree = "<group>"; };
+		3EF7A1591CE0F5440016FA62 /* ShinpuruNodeDataTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShinpuruNodeDataTypes.swift; sourceTree = "<group>"; };
+		3EF7A15A1CE0F5440016FA62 /* SNNodesContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNNodesContainer.swift; sourceTree = "<group>"; };
+		3EF7A15B1CE0F5440016FA62 /* SNNodeWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNNodeWidget.swift; sourceTree = "<group>"; };
+		3EF7A15C1CE0F5440016FA62 /* SNRelationshipCurvesLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNRelationshipCurvesLayer.swift; sourceTree = "<group>"; };
+		3EF7A15D1CE0F5440016FA62 /* SNView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EF7A14A1CE0EF2A0016FA62 /* AudioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +82,7 @@
 		3EF7A12B1CE0EE460016FA62 = {
 			isa = PBXGroup;
 			children = (
+				3EF7A1491CE0EF2A0016FA62 /* AudioKit.framework */,
 				3EF7A1361CE0EE460016FA62 /* AudioKitNodality */,
 				3EF7A1351CE0EE460016FA62 /* Products */,
 			);
@@ -54,6 +99,9 @@
 		3EF7A1361CE0EE460016FA62 /* AudioKitNodality */ = {
 			isa = PBXGroup;
 			children = (
+				3EF7A14D1CE0F5440016FA62 /* components */,
+				3EF7A1501CE0F5440016FA62 /* demoProject */,
+				3EF7A1581CE0F5440016FA62 /* shinpuru */,
 				3EF7A1371CE0EE460016FA62 /* AppDelegate.swift */,
 				3EF7A1391CE0EE460016FA62 /* ViewController.swift */,
 				3EF7A13B1CE0EE460016FA62 /* Main.storyboard */,
@@ -62,6 +110,40 @@
 				3EF7A1431CE0EE460016FA62 /* Info.plist */,
 			);
 			path = AudioKitNodality;
+			sourceTree = "<group>";
+		};
+		3EF7A14D1CE0F5440016FA62 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				3EF7A14F1CE0F5440016FA62 /* SliderWidget.swift */,
+			);
+			path = components;
+			sourceTree = "<group>";
+		};
+		3EF7A1501CE0F5440016FA62 /* demoProject */ = {
+			isa = PBXGroup;
+			children = (
+				3EF7A1511CE0F5440016FA62 /* Classes.swift */,
+				3EF7A1521CE0F5440016FA62 /* FilterControlsComponent.swift */,
+				3EF7A1531CE0F5440016FA62 /* InputOutputRenderers.swift */,
+				3EF7A1541CE0F5440016FA62 /* ItemRenderers.swift */,
+				3EF7A1551CE0F5440016FA62 /* Model.swift */,
+				3EF7A1561CE0F5440016FA62 /* NodeType.swift */,
+				3EF7A1571CE0F5440016FA62 /* NodeValue.swift */,
+			);
+			path = demoProject;
+			sourceTree = "<group>";
+		};
+		3EF7A1581CE0F5440016FA62 /* shinpuru */ = {
+			isa = PBXGroup;
+			children = (
+				3EF7A1591CE0F5440016FA62 /* ShinpuruNodeDataTypes.swift */,
+				3EF7A15A1CE0F5440016FA62 /* SNNodesContainer.swift */,
+				3EF7A15B1CE0F5440016FA62 /* SNNodeWidget.swift */,
+				3EF7A15C1CE0F5440016FA62 /* SNRelationshipCurvesLayer.swift */,
+				3EF7A15D1CE0F5440016FA62 /* SNView.swift */,
+			);
+			path = shinpuru;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +156,7 @@
 				3EF7A1301CE0EE460016FA62 /* Sources */,
 				3EF7A1311CE0EE460016FA62 /* Frameworks */,
 				3EF7A1321CE0EE460016FA62 /* Resources */,
+				3EF7A14C1CE0EF2A0016FA62 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -135,8 +218,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EF7A1641CE0F5440016FA62 /* Model.swift in Sources */,
+				3EF7A15F1CE0F5440016FA62 /* SliderWidget.swift in Sources */,
+				3EF7A1621CE0F5440016FA62 /* InputOutputRenderers.swift in Sources */,
+				3EF7A16B1CE0F5440016FA62 /* SNView.swift in Sources */,
+				3EF7A1681CE0F5440016FA62 /* SNNodesContainer.swift in Sources */,
+				3EF7A1651CE0F5440016FA62 /* NodeType.swift in Sources */,
+				3EF7A1611CE0F5440016FA62 /* FilterControlsComponent.swift in Sources */,
+				3EF7A16A1CE0F5440016FA62 /* SNRelationshipCurvesLayer.swift in Sources */,
+				3EF7A1671CE0F5440016FA62 /* ShinpuruNodeDataTypes.swift in Sources */,
 				3EF7A13A1CE0EE460016FA62 /* ViewController.swift in Sources */,
+				3EF7A1601CE0F5440016FA62 /* Classes.swift in Sources */,
+				3EF7A1691CE0F5440016FA62 /* SNNodeWidget.swift in Sources */,
+				3EF7A1661CE0F5440016FA62 /* NodeValue.swift in Sources */,
 				3EF7A1381CE0EE460016FA62 /* AppDelegate.swift in Sources */,
+				3EF7A1631CE0F5440016FA62 /* ItemRenderers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +347,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = AudioKitNodality/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.flexmonkey.AudioKitNodality;
@@ -262,6 +362,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = AudioKitNodality/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.flexmonkey.AudioKitNodality;
