@@ -100,7 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				3EF7A14D1CE0F5440016FA62 /* components */,
-				3EF7A1501CE0F5440016FA62 /* demoProject */,
+				3EF7A1501CE0F5440016FA62 /* audiokit */,
 				3EF7A1581CE0F5440016FA62 /* shinpuru */,
 				3EF7A1371CE0EE460016FA62 /* AppDelegate.swift */,
 				3EF7A1391CE0EE460016FA62 /* ViewController.swift */,
@@ -120,7 +120,7 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		3EF7A1501CE0F5440016FA62 /* demoProject */ = {
+		3EF7A1501CE0F5440016FA62 /* audiokit */ = {
 			isa = PBXGroup;
 			children = (
 				3EF7A1511CE0F5440016FA62 /* Classes.swift */,
@@ -131,6 +131,7 @@
 				3EF7A1561CE0F5440016FA62 /* NodeType.swift */,
 				3EF7A1571CE0F5440016FA62 /* NodeValue.swift */,
 			);
+			name = audiokit;
 			path = demoProject;
 			sourceTree = "<group>";
 		};
@@ -392,6 +393,7 @@
 				3EF7A1481CE0EE460016FA62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -94,31 +94,57 @@ class NodeVO: SNNode
         }
     }
     
+    var outputTypeName: String
+    {
+        switch type
+        {
+        case .Numeric:
+            return SNNumberTypeName
+            
+        default:
+            return SNNodeTypeName
+        }
+    }
+    
     func recalculate()
     {
+        AudioKit.stop()
+        
         switch type
         {
         case .Numeric:
             value = NodeValue.Number(value?.numberValue ?? Double(0))
         
         case .Output:
-            if let input = getInputValueAt(0).audioKitNode
+            if let input = getInputValueAt(0).audioKitNode where AudioKit.output != getInputValueAt(0).audioKitNode
             {
-                AudioKit.stop()
                 AudioKit.output = input
-                AudioKit.start(); print("OUTPUT!!!!")
             }
             
         case .WhiteNoise:
-            let whiteNoise = AKWhiteNoise()
-            whiteNoise.amplitude = 1
-            whiteNoise.start()
+            let whiteNoise = value?.audioKitNode as? AKWhiteNoise ?? AKWhiteNoise()
+            
+            whiteNoise.amplitude = getInputValueAt(0).numberValue ?? 0.5
+            
+            if whiteNoise.isStopped
+            {
+                whiteNoise.start()
+            }
             
             value = NodeValue.Node(whiteNoise)
             
         case .Oscillator:
-            let oscillator = AKOscillator()
-            oscillator.start()
+            let oscillator = value?.audioKitNode as? AKOscillator ?? AKOscillator()
+            
+            oscillator.amplitude = getInputValueAt(0).numberValue ?? 0
+            oscillator.frequency = getInputValueAt(1).numberValue ?? 0
+            
+            print(oscillator.amplitude, oscillator.frequency)
+            
+            if oscillator.isStopped
+            {
+                oscillator.start()
+            }
             
             value = NodeValue.Node(oscillator)
             
@@ -126,13 +152,26 @@ class NodeVO: SNNode
             if let input0 = getInputValueAt(0).audioKitNode,
                 input1 = getInputValueAt(1).audioKitNode
             {
-                value = NodeValue.Node(AKDryWetMixer(input0, input1, balance: 0.5))
+                let balance = getInputValueAt(2).numberValue ?? 0.5
+                
+                value = NodeValue.Node(AKDryWetMixer(input0, input1, balance: balance))
             }
             
         case .StringResonator:
-            if let input = getInputValueAt(0).audioKitNode
+            if let input = getInputValueAt(0).audioKitNode where !(value?.audioKitNode is  AKStringResonator)    // where getInputValueAt(0).audioKitNode != input
             {
                 value = NodeValue.Node(AKStringResonator(input))
+            }
+            
+            if let stringResonator = value?.audioKitNode as? AKStringResonator
+            {
+//                if stringResonator.isStopped
+//                {
+//                    stringResonator.start()
+//                }
+                
+                stringResonator.fundamentalFrequency = getInputValueAt(1).numberValue ?? 0
+                stringResonator.feedback = getInputValueAt(2).numberValue ?? 0
             }
         }
         
@@ -153,6 +192,15 @@ class NodeVO: SNNode
         }
         
         self.model.updateDescendantNodes(self)
+        
+        if AudioKit.output != nil
+        {
+            AudioKit.start()
+        }
+        else
+        {
+            print("AudioKit.output is nil")
+        }
     }
 
     // A dictionary of values by index not generated from an input

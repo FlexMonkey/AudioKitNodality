@@ -164,9 +164,12 @@ class SNView: UIScrollView, UIScrollViewDelegate
         
         for otherNode in nodes where otherNode != node && otherNode.inputs != nil
         {
-            for otherNodeInputRenderer in (widgetsDictionary[otherNode]?.inputRowRenderers)! where otherNodeInputRenderer.inputNode == node
+            if let inputRowRenderers = (widgetsDictionary[otherNode]?.inputRowRenderers)
             {
-                otherNodeInputRenderer.reload()
+                for otherNodeInputRenderer in inputRowRenderers where otherNodeInputRenderer.inputNode == node
+                {
+                    otherNodeInputRenderer.reload()
+                }
             }
         }
     }

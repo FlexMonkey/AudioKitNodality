@@ -14,18 +14,16 @@ enum NodeValue
     case Number(Double?)
     case Node(AKNode?)
     case Output
-    
-    // get non-optional associated value
-    
-    var numberValue: Double
+ 
+    var numberValue: Double?
     {
         switch self
         {
         case .Number(let value):
-            return value ?? 0
+            return value
             
         default:
-            return 0
+            return nil
         }
     }
     

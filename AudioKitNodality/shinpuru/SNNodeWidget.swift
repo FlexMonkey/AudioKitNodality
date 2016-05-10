@@ -207,6 +207,8 @@ class SNNodeWidget: UIView
         {
             view.selectedNode = node
         }
+        
+        view.selectedNode = node // SIMON - to do line 204 getting reached oddly
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)

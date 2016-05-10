@@ -55,7 +55,7 @@ class SliderWidget: UIControl, NodalitySlider
         maxButton.addTarget(self, action: #selector(SliderWidget.maxHandler), forControlEvents: .TouchDown)
         
         slider.minimumValue = 0
-        slider.maximumValue = 1
+        slider.maximumValue = 1000
         
         layer.backgroundColor = UIColor.darkGrayColor().CGColor
         
@@ -74,6 +74,11 @@ class SliderWidget: UIControl, NodalitySlider
         
         addSubview(minButton)
         addSubview(maxButton)
+        
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowOffset = CGSizeZero
+        layer.shadowRadius = 2
+        layer.shadowOpacity = 1
     }
     
     func minHandler()
@@ -104,29 +109,27 @@ class SliderWidget: UIControl, NodalitySlider
     
     override func intrinsicContentSize() -> CGSize
     {
-        return CGSize(width: 250, height: 60)
+        return CGSize(width: 250, height: 20 + slider.intrinsicContentSize().height * 2)
     }
     
     override func layoutSubviews()
     {
-        let buttonHeight: CGFloat = 25
-        
         label.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height / 2).insetBy(dx: 5, dy: 5)
         
         minButton.frame = CGRect(x: 4,
-            y: frame.height - buttonHeight - 2,
+            y: frame.height - slider.intrinsicContentSize().height * 1.5 + 5,
             width: minButton.intrinsicContentSize().width,
-            height: buttonHeight)
+            height: slider.intrinsicContentSize().height)
 
         maxButton.frame = CGRect(x: frame.width - 4 - maxButton.intrinsicContentSize().width,
-            y: frame.height - buttonHeight - 2,
+            y: frame.height - slider.intrinsicContentSize().height * 1.5 + 5,
             width: maxButton.intrinsicContentSize().width,
-            height: buttonHeight)
+            height: slider.intrinsicContentSize().height)
         
         slider.frame = CGRect(x: minButton.intrinsicContentSize().width + 4,
-            y: (frame.height / 2) - 2,
+            y: (frame.height / 2),
             width: frame.width - minButton.intrinsicContentSize().width - maxButton.intrinsicContentSize().width - 6,
-            height: frame.height / 2).insetBy(dx: 10, dy: 10)
+            height: slider.intrinsicContentSize().height).insetBy(dx: 10, dy: 0)
     }
 }
 

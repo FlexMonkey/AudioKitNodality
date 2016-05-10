@@ -39,6 +39,15 @@ class NodalityModel
         
         nodes = [whiteNoise, mixer, oscillator, stringResonator, output]
         
+        whiteNoise.freeValues[0] = NodeValue.Number(0.5)
+        oscillator.freeValues[0] = NodeValue.Number(0.5)
+        oscillator.freeValues[1] = NodeValue.Number(440)
+        
+        stringResonator.freeValues[1] = NodeValue.Number(100)
+        stringResonator.freeValues[2] = NodeValue.Number(0.95)
+        
+        mixer.freeValues[2] = NodeValue.Number(0.5)
+        
         whiteNoise.recalculate()
         oscillator.recalculate()
     }
@@ -141,6 +150,6 @@ class NodalityModel
             return false
         }
         
-        return sourceNode.value?.typeName == targetNode.type.inputSlots[targetIndex].type.typeName
+        return sourceNode.outputTypeName == targetNode.type.inputSlots[targetIndex].type.typeName
     }
 }

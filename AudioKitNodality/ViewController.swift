@@ -11,20 +11,52 @@ import AudioKit
 
 class ViewController: UIViewController
 {
-
+    let slider = SliderWidget()
     let shinpuruNodeUI = SNView()
+    
     var model = NodalityModel()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
+        
+//        let pink: AKPinkNoise = AKPinkNoise()
+//        
+//        pink.amplitude = 1.0
+//        pink.start()
+//        
+//        let reverb = AKStringResonator(pink)
+////        reverb.loadFactoryPreset(.LargeChamber)
+//        reverb.start()
+//        
+//        AudioKit.output = reverb
+//        AudioKit.start()
+        
         shinpuruNodeUI.nodeDelegate = self
         model.view = shinpuruNodeUI
         
         view.addSubview(shinpuruNodeUI)
+        
+        slider.alpha = 0
+        slider.addTarget(
+            self,
+            action: #selector(ViewController.sliderChangeHandler),
+            forControlEvents: .ValueChanged)
+        view.addSubview(slider)
+    
     }
 
+    func sliderChangeHandler()
+    {
+        if let selectedNode = shinpuruNodeUI.selectedNode?.nodalityNode where selectedNode.type == .Numeric
+        {
+            selectedNode.value = NodeValue.Number(Double(slider.slider.value))
+            
+            model.updateDescendantNodes(selectedNode).forEach{ shinpuruNodeUI.reloadNode($0) }
+        }
+    }
+    
     override func viewDidLayoutSubviews()
     {
         super.viewDidLayoutSubviews()
@@ -34,6 +66,12 @@ class ViewController: UIViewController
             y: topLayoutGuide.length,
             width: view.frame.width,
             height: view.frame.height - topLayoutGuide.length)
+        
+        slider.frame = CGRect(
+            x: 0,
+            y: view.frame.height - slider.intrinsicContentSize().height - 20,
+            width: view.frame.width,
+            height: slider.intrinsicContentSize().height).insetBy(dx: 20, dy: 0)
     }
 
 
@@ -65,55 +103,10 @@ extension ViewController: SNDelegate
     
     func nodeSelectedInView(view: SNView, node: SNNode?)
     {
-//        guard let node = node?.nodalityNode else
-//        {
-//            slider.enabled = false
-//            operatorsControl.enabled = false
-//            isOperatorSwitch.enabled = false
-//            
-//            return
-//        }
-//        
-//        isOperatorSwitch.enabled = true
-//        
-//        if node.type.isImageFilter
-//        {
-//            filterControl.node = node
-//            
-//            filterControl.hidden = false
-//            controlsStackView.hidden = true
-//        }
-//        else
-//        {
-//            filterControl.hidden = true
-//            controlsStackView.hidden = false
-//            
-//            switch node.type
-//            {
-//            case .Numeric:
-//                slider.enabled = true
-//                operatorsControl.enabled = false
-//                operatorsControl.selectedSegmentIndex = -1
-//                isOperatorSwitch.on = false
-//                
-//                slider.value = node.value?.floatValue ?? 0
-//                
-//            case .Add, .Subtract, .Multiply, .Divide, .Color, .ColorAdjust:
-//                slider.enabled = false
-//                operatorsControl.enabled = true
-//                isOperatorSwitch.on = true
-//                
-//                if let targetIndex = NodeType.operators.indexOf(NodeType(rawValue: node.type.rawValue)!)
-//                {
-//                    operatorsControl.selectedSegmentIndex = targetIndex
-//                }
-//                
-//            case .Checkerboard, .GaussianBlur:
-//                slider.enabled = false
-//                operatorsControl.enabled = false
-//                isOperatorSwitch.enabled = false
-//            }
-//        }
+        UIView.animateWithDuration(0.25)
+        {
+            self.slider.alpha = node?.nodalityNode?.type == .Numeric ? 1.0 : 0.0
+        }
     }
     
     func nodeMovedInView(view: SNView, node: SNNode)
