@@ -24,9 +24,7 @@ import AudioKit
 class NodeVO: SNNode
 {
     unowned let model:NodalityModel
-    
-    let ciContextFast = CIContext(EAGLContext: EAGLContext(API: EAGLRenderingAPI.OpenGLES2), options: [kCIContextWorkingColorSpace: NSNull()])
-    
+
     var type: NodeType = NodeType.Numeric
     {
         didSet
@@ -104,28 +102,38 @@ class NodeVO: SNNode
             value = NodeValue.Number(value?.numberValue ?? Double(0))
         
         case .Output:
-            print("LINK UP INPUTS AND PLAY!!!")
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                AudioKit.stop()
+                AudioKit.output = input
+                AudioKit.start(); print("OUTPUT!!!!")
+            }
             
         case .WhiteNoise:
-            value = NodeValue.Node(AKPinkNoise())
+            let whiteNoise = AKWhiteNoise()
+            whiteNoise.amplitude = 1
+            whiteNoise.start()
+            
+            value = NodeValue.Node(whiteNoise)
             
         case .Oscillator:
-            value = NodeValue.Node(AKOscillator())
+            let oscillator = AKOscillator()
+            oscillator.start()
+            
+            value = NodeValue.Node(oscillator)
             
         case .DryWetMixer:
-            let input0 = getInputValueAt(0).audioKitNode
-            let input1 = getInputValueAt(1).audioKitNode
+            if let input0 = getInputValueAt(0).audioKitNode,
+                input1 = getInputValueAt(1).audioKitNode
+            {
+                value = NodeValue.Node(AKDryWetMixer(input0, input1, balance: 0.5))
+            }
             
-            value = NodeValue.Node(AKDryWetMixer(input0, input1, balance: 0.5))
-
-            // CREATE NODE INSTANCE...!!!!
-//        case .GaussianBlur:
-//            var parameters = [String: AnyObject]()
-//            
-//            parameters[kCIInputImageKey] = CIImage(image: self.getInputValueAt(0).imageValue)
-//            parameters[kCIInputRadiusKey] = self.getInputValueAt(1).floatValue
-//            
-//            applyFilter("CIGaussianBlur", parameters: parameters)
+        case .StringResonator:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                value = NodeValue.Node(AKStringResonator(input))
+            }
         }
         
         if let inputs = inputs
@@ -143,6 +151,8 @@ class NodeVO: SNNode
                 }
             }
         }
+        
+        self.model.updateDescendantNodes(self)
     }
 
     // A dictionary of values by index not generated from an input

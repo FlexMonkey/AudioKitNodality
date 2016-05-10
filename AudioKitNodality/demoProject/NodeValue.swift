@@ -29,15 +29,15 @@ enum NodeValue
         }
     }
     
-    var audioKitNode: AKNode
+    var audioKitNode: AKNode?
     {
         switch self
         {
         case .Node(let value):
-            return value ?? AKNode()
+            return value 
             
         default:
-            return AKNode()
+            return nil
         }
     }
     

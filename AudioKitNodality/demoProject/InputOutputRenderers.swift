@@ -62,7 +62,7 @@ class DemoInputRowRenderer: SNInputRowRenderer
             label.text = label.text! + " \(floatValue!)"
         
         default:
-            label.text = "xxxxxxx"
+            label.text = inputNode?.nodalityNode?.type.rawValue ?? ""
         }
     }
     

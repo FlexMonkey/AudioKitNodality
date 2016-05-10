@@ -126,8 +126,6 @@ class SNView: UIScrollView, UIScrollViewDelegate
     {
         if let nodeDelegate = nodeDelegate where recognizer.state == UIGestureRecognizerState.Began
         {
-            print("new node", nodeTouched)
-            
             let newPodePosition = CGPoint(
                 x: recognizer.locationInView(nodesContainer).x - nodeDelegate.defaultNodeSize(self).width / 2,
                 y: recognizer.locationInView(nodesContainer).y - nodeDelegate.defaultNodeSize(self).height / 2)

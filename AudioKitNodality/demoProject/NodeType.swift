@@ -18,13 +18,18 @@ enum NodeType: String
 {
     case Numeric
     
-    case WhiteNoise
-    case DryWetMixer
+    // Generators
+    
     case Oscillator
+    case WhiteNoise
+    
+    // Filters
+    case DryWetMixer
+    case StringResonator
+    
+    // Mandatory output
     case Output
 
-    static let nodeTypes = [WhiteNoise, WhiteNoise, DryWetMixer, Output]
-    
     var inputSlots: [NodeInputSlot]
     {
         switch self
@@ -49,6 +54,12 @@ enum NodeType: String
         case .WhiteNoise:
             return [
                 NodeInputSlot(label: "Amplitude", type: SNNodeNumberType)]
+            
+        case .StringResonator:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Frequency", type: SNNodeNumberType),
+                NodeInputSlot(label: "Feedback", type: SNNodeNumberType)]
         }
     }
     
