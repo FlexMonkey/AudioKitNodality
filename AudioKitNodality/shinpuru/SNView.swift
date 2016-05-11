@@ -97,22 +97,30 @@ class SNView: UIScrollView, UIScrollViewDelegate
         }
     }
     
-    override func didMoveToSuperview()
+    override init(frame: CGRect)
     {
+        super.init(frame: frame)
+        
         minimumZoomScale = 0.5
         maximumZoomScale = 2.0
         delegate = self
         
         backgroundColor = UIColor.blackColor()
-  
-        nodesContainer.layer.addSublayer(curvesLayer)
-        
+
         addSubview(nodesContainer)
+        
+        nodesContainer.layer.insertSublayer(
+            curvesLayer,
+            below: nodesContainer.layer)
         
         renderNodes()
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(SNView.longPressHandler(_:)))
         nodesContainer.addGestureRecognizer(longPress)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
