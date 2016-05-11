@@ -30,7 +30,7 @@ class DemoInputRowRenderer: SNInputRowRenderer
     }
     
     override var inputNode: SNNode?
-        {
+    {
         didSet
         {
             super.inputNode = inputNode
@@ -54,7 +54,7 @@ class DemoInputRowRenderer: SNInputRowRenderer
         
         label.text = node.type.inputSlots[index].label + ": "
         
-        let value = node.getInputValueAt(index) // inputNode?.nodalityNode?.value ?? node.getInputValueAt(index)
+        let value = node.getInputValueAt(index)
         
         switch value
         {

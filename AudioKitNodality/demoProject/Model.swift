@@ -28,14 +28,14 @@ class NodalityModel
     
     init() 
     {
-        let whiteNoise = NodeVO(name: "White Noise", position: CGPoint(x: 10, y: 10), type: NodeType.WhiteNoise, inputs: [nil], model: self)
-        let oscillator = NodeVO(name: "Oscillator", position: CGPoint(x: 50, y: 370), type: NodeType.Oscillator, inputs: [nil, nil], model: self)
+        let whiteNoise = NodeVO(name: "White Noise", position: CGPoint(x: 10, y: 10), type: NodeType.WhiteNoise, inputs: [], model: self)
+        let oscillator = NodeVO(name: "Oscillator", position: CGPoint(x: 50, y: 370), type: NodeType.Oscillator, inputs: [], model: self)
         
-        let mixer = NodeVO(name: "DryWetMixer", position: CGPoint(x: 450, y: 170), type: NodeType.DryWetMixer, inputs: [nil, nil, nil], model: self)
+        let mixer = NodeVO(name: "DryWetMixer", position: CGPoint(x: 450, y: 170), type: NodeType.DryWetMixer, inputs: [], model: self)
         
-        let stringResonator = NodeVO(name: "MoogLadder", position: CGPoint(x: 450, y: 170), type: NodeType.MoogLadder, inputs: [nil,nil, nil], model: self)
+        let stringResonator = NodeVO(name: "MoogLadder", position: CGPoint(x: 450, y: 170), type: NodeType.MoogLadder, inputs: [], model: self)
         
-        let output = NodeVO(name: "Output", position: CGPoint(x: 950, y: 50), type: NodeType.Output, inputs: [nil], model: self)
+        let output = NodeVO(name: "Output", position: CGPoint(x: 950, y: 50), type: NodeType.Output, inputs: [], model: self)
         
         nodes = [whiteNoise, oscillator, mixer, output, stringResonator] // [whiteNoise, mixer, oscillator, stringResonator, output]
         

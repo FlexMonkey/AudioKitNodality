@@ -29,7 +29,10 @@ class SNNodeWidget: UIView
     var inputRowRenderers = [SNInputRowRenderer]()
     var previousPanPoint: CGPoint?
     
-    let titleBar = SNWidgetTitleBar()
+    lazy var titleBar: SNWidgetTitleBar =
+    {
+        return (SNWidgetTitleBar(parentNodeWidget: self))
+    }()
     
     required init(view: SNView, node: SNNode)
     {
@@ -122,8 +125,6 @@ class SNNodeWidget: UIView
         addSubview(titleBar)
         
         titleBar.title = node.name
-        
-        titleBar.parentNodeWidget = self
         
         titleBar.frame = CGRect(x: 1,
             y: 0,
@@ -277,7 +278,7 @@ class SNWidgetTitleBar: UIToolbar
 {
     let label: UIBarButtonItem
     
-    weak var parentNodeWidget: SNNodeWidget?
+    unowned let parentNodeWidget: SNNodeWidget
     
     var title: String = ""
     {
@@ -287,16 +288,17 @@ class SNWidgetTitleBar: UIToolbar
         }
     }
     
-    override init(frame: CGRect)
+    required init(parentNodeWidget: SNNodeWidget)
     {
+        self.parentNodeWidget = parentNodeWidget
         label = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
 
-        super.init(frame: frame)
+        super.init(frame: CGRectZero)
 
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         let trash = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: #selector(SNNodeWidget.deleteHandler))
         
-        items = [label, spacer, trash]
+        items = parentNodeWidget.node.deletable() ? [label, spacer, trash] : [label]
         
         tintColor = UIColor.whiteColor()
         barTintColor = UIColor.darkGrayColor()
@@ -304,7 +306,7 @@ class SNWidgetTitleBar: UIToolbar
 
     func deleteHandler()
     {
-        parentNodeWidget?.deleteHandler()
+        parentNodeWidget.deleteHandler()
     }
     
     required init?(coder aDecoder: NSCoder)

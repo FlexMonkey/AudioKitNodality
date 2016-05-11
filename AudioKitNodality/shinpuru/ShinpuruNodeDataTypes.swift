@@ -31,6 +31,11 @@ class SNNode: Equatable, Hashable
     var position: CGPoint
     var name: String
     
+    func deletable() -> Bool
+    {
+        return true
+    }
+    
     required init(name: String, position: CGPoint)
     {
         self.name = name

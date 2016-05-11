@@ -39,6 +39,11 @@ class NodeVO: SNNode
     
     var value: NodeValue?
     
+    override func deletable() -> Bool
+    {
+        return type != .Output
+    }
+    
     /// For numeric nodes, the slider maximumValue 
     var maximumValue: Double = 1
 
