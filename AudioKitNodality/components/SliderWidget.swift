@@ -55,7 +55,7 @@ class SliderWidget: UIControl, NodalitySlider
         maxButton.addTarget(self, action: #selector(SliderWidget.maxHandler), forControlEvents: .TouchDown)
         
         slider.minimumValue = 0
-        slider.maximumValue = 1000
+        slider.maximumValue = 1
         
         layer.backgroundColor = UIColor.darkGrayColor().CGColor
         

@@ -21,8 +21,10 @@ class ViewController: UIViewController
         super.viewDidLoad()
         
         
-//        let pink: AKPinkNoise = AKPinkNoise()
-//        
+//        let pink = AKFMOscillator()
+//  
+//        pink.carrierMultiplier = 0.25
+//        pink.modulationIndex = 0.5
 //        pink.amplitude = 1.0
 //        pink.start()
 //        
