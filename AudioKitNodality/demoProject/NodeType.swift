@@ -29,6 +29,7 @@ enum NodeType: String
     case DryWetMixer
     case StringResonator
     case MoogLadder
+    case RolandTB303Filter
     
     // Mandatory output
     case Output
@@ -69,6 +70,14 @@ enum NodeType: String
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
                 NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 1000),
                 NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0.5)]
+            
+        case .RolandTB303Filter:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 500),
+                NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0.5),
+                NodeInputSlot(label: "Distortion", type: SNNodeNumberType, defaultValue: 2.0),
+                NodeInputSlot(label: "Resonance Asymmetry", type: SNNodeNumberType, defaultValue: 0.5)]
         }
     }
     
@@ -77,8 +86,10 @@ enum NodeType: String
         return inputSlots.count
     }
     
-    static let types = [NodeType.Numeric, NodeType.Oscillator, NodeType.WhiteNoise, NodeType.MoogLadder, NodeType.DryWetMixer]
-        .sort{$0.rawValue > $1.rawValue}
+    static let types = [
+        NodeType.Numeric, NodeType.Oscillator, NodeType.WhiteNoise,
+        NodeType.MoogLadder, NodeType.DryWetMixer, NodeType.StringResonator,
+        NodeType.RolandTB303Filter].sort{$1.rawValue > $0.rawValue}
     
     static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO
     {

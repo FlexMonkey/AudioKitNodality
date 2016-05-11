@@ -204,7 +204,6 @@ class NodeVO: SNNode
                     audioKitNodeInputs[0] = input
                 }
                 
-                (value?.audioKitNode as? AKStringResonator)?.start()
                 (value?.audioKitNode as? AKStringResonator)?.fundamentalFrequency = getInputValueAt(1).numberValue
                 (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(2).numberValue
             }
@@ -225,7 +224,6 @@ class NodeVO: SNNode
                     audioKitNodeInputs[0] = input
                 }
                 
-                // (value?.audioKitNode as? AKMoogLadder)?.start()
                 (value?.audioKitNode as? AKMoogLadder)?.cutoffFrequency = getInputValueAt(1).numberValue
                 (value?.audioKitNode as? AKMoogLadder)?.resonance = getInputValueAt(2).numberValue
             }
@@ -234,6 +232,27 @@ class NodeVO: SNNode
                 value = NodeValue.Node(nil)
             }
             
+        case .RolandTB303Filter:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKRolandTB303Filter(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                (value?.audioKitNode as? AKRolandTB303Filter)?.cutoffFrequency = getInputValueAt(1).numberValue
+                (value?.audioKitNode as? AKRolandTB303Filter)?.resonance = getInputValueAt(2).numberValue
+                (value?.audioKitNode as? AKRolandTB303Filter)?.distortion = getInputValueAt(3).numberValue
+                (value?.audioKitNode as? AKRolandTB303Filter)?.resonanceAsymmetry = getInputValueAt(4).numberValue
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
             
         }
         
