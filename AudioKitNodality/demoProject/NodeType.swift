@@ -76,7 +76,7 @@ enum NodeType: String
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
                 NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 500),
                 NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0.5),
-                NodeInputSlot(label: "Distortion", type: SNNodeNumberType, defaultValue: 2.0),
+                // NodeInputSlot(label: "Distortion", type: SNNodeNumberType, defaultValue: 2.0),
                 NodeInputSlot(label: "Resonance Asymmetry", type: SNNodeNumberType, defaultValue: 0.5)]
         }
     }

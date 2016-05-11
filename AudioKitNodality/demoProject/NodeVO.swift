@@ -204,8 +204,11 @@ class NodeVO: SNNode
                     audioKitNodeInputs[0] = input
                 }
                 
-                (value?.audioKitNode as? AKStringResonator)?.fundamentalFrequency = getInputValueAt(1).numberValue
-                (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(2).numberValue
+                if let audioKitNode = value?.audioKitNode as? AKStringResonator
+                {
+                    audioKitNode.fundamentalFrequency = getInputValueAt(1).numberValue
+                    audioKitNode.feedback = getInputValueAt(2).numberValue
+                }
             }
             else
             {
@@ -224,8 +227,11 @@ class NodeVO: SNNode
                     audioKitNodeInputs[0] = input
                 }
                 
-                (value?.audioKitNode as? AKMoogLadder)?.cutoffFrequency = getInputValueAt(1).numberValue
-                (value?.audioKitNode as? AKMoogLadder)?.resonance = getInputValueAt(2).numberValue
+                if let audioKitNode = value?.audioKitNode as? AKMoogLadder
+                {
+                    audioKitNode.cutoffFrequency = getInputValueAt(1).numberValue
+                    audioKitNode.resonance = getInputValueAt(2).numberValue
+                }
             }
             else
             {
@@ -244,10 +250,13 @@ class NodeVO: SNNode
                     audioKitNodeInputs[0] = input
                 }
                 
-                (value?.audioKitNode as? AKRolandTB303Filter)?.cutoffFrequency = getInputValueAt(1).numberValue
-                (value?.audioKitNode as? AKRolandTB303Filter)?.resonance = getInputValueAt(2).numberValue
-                (value?.audioKitNode as? AKRolandTB303Filter)?.distortion = getInputValueAt(3).numberValue
-                (value?.audioKitNode as? AKRolandTB303Filter)?.resonanceAsymmetry = getInputValueAt(4).numberValue
+                if let audioKitNode = value?.audioKitNode as? AKRolandTB303Filter
+                {
+                    audioKitNode.cutoffFrequency = getInputValueAt(1).numberValue
+                    audioKitNode.resonance = getInputValueAt(2).numberValue
+                    // audioKitNode.distortion = getInputValueAt(3).numberValue // deviation from this can cause stability issues.
+                    audioKitNode.resonanceAsymmetry = getInputValueAt(3).numberValue
+                }
             }
             else
             {
