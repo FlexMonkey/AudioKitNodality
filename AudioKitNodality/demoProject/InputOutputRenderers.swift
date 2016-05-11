@@ -59,7 +59,8 @@ class DemoInputRowRenderer: SNInputRowRenderer
         switch value
         {
         case NodeValue.Number(let floatValue):
-            label.text = label.text! + " \(floatValue!)"
+            let valueAsString = String(format: "%.2f", floatValue!)
+            label.text = label.text! + " \(valueAsString)"
         
         default:
             label.text = inputNode?.nodalityNode?.type.rawValue ?? ""
@@ -127,7 +128,9 @@ class DemoOutputRowRenderer: SNOutputRowRenderer
     
     func updateLabel()
     {
-        label.text = node?.nodalityNode?.outputType.typeName
+        let value = String(format: "%.2f", node?.nodalityNode?.value?.numberValue ?? 0)
+        
+        label.text = node?.nodalityNode?.type == .Numeric ? value : node?.nodalityNode?.outputType.typeName
     }
     
     override func layoutSubviews()

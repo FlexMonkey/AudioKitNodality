@@ -26,6 +26,7 @@ enum NodeType: String
     // Filters
     case DryWetMixer
     case StringResonator
+    case MoogLadder
     
     // Mandatory output
     case Output
@@ -60,6 +61,10 @@ enum NodeType: String
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
                 NodeInputSlot(label: "Frequency", type: SNNodeNumberType),
                 NodeInputSlot(label: "Feedback", type: SNNodeNumberType)]
+            
+        case .MoogLadder:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType)]
         }
     }
     

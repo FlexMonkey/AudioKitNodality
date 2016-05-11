@@ -1,5 +1,5 @@
 //
-//  DemoClasses.swift
+//  NodeVO.swift
 //  ShinpuruNodeUI
 //
 //  Created by Simon Gladman on 01/09/2015.
@@ -38,6 +38,9 @@ class NodeVO: SNNode
     }
     
     var value: NodeValue?
+    
+    /// For numeric nodes, the slider maximumValue 
+    var maximumValue: Double = 1
 
     required init(name: String, position: CGPoint, model: NodalityModel)
     {
@@ -176,8 +179,6 @@ class NodeVO: SNNode
         case .StringResonator:
             if let input = getInputValueAt(0).audioKitNode
             {
-                value = NodeValue.Node(AKStringResonator(input))
-                
                 if audioKitNodeInputs[0] != input
                 {
                     AudioKit.stop()
@@ -196,6 +197,28 @@ class NodeVO: SNNode
                 value = NodeValue.Node(nil)
             }
 
+        case .MoogLadder:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKMoogLadder(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+//                (value?.audioKitNode as? AKStringResonator)?.start()
+//                (value?.audioKitNode as? AKStringResonator)?.fundamentalFrequency = getInputValueAt(1).numberValue ?? 100
+//                (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(1).numberValue ?? 0.95
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+            
         }
         
         if let inputs = inputs

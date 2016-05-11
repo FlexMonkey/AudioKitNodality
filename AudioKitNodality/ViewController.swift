@@ -16,25 +16,12 @@ class ViewController: UIViewController
     
     var model = NodalityModel()
     
+    var ignoreSliderChange = false
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        
-//        let pink = AKFMOscillator()
-//  
-//        pink.carrierMultiplier = 0.25
-//        pink.modulationIndex = 0.5
-//        pink.amplitude = 1.0
-//        pink.start()
-//        
-//        let reverb = AKStringResonator(pink)
-////        reverb.loadFactoryPreset(.LargeChamber)
-////        reverb.start()
-//        
-//        AudioKit.output = reverb
-//        AudioKit.start()
-        
+
         shinpuruNodeUI.nodeDelegate = self
         model.view = shinpuruNodeUI
         
@@ -53,9 +40,13 @@ class ViewController: UIViewController
     {
         if let selectedNode = shinpuruNodeUI.selectedNode?.nodalityNode where selectedNode.type == .Numeric
         {
-            selectedNode.value = NodeValue.Number(Double(slider.slider.value))
-            
-            model.updateDescendantNodes(selectedNode).forEach{ shinpuruNodeUI.reloadNode($0) }
+            if !ignoreSliderChange
+            {
+                selectedNode.value = NodeValue.Number(Double(slider.slider.value))
+                selectedNode.maximumValue = slider.maximumValue
+
+                model.updateDescendantNodes(selectedNode).forEach{ shinpuruNodeUI.reloadNode($0) }
+            }
         }
     }
     
@@ -75,8 +66,6 @@ class ViewController: UIViewController
             width: view.frame.width,
             height: slider.intrinsicContentSize().height).insetBy(dx: 20, dy: 0)
     }
-
-
 }
 
 // MARK: SNDelegate
@@ -109,6 +98,10 @@ extension ViewController: SNDelegate
         {
             self.slider.alpha = node?.nodalityNode?.type == .Numeric ? 1.0 : 0.0
         }
+        ignoreSliderChange = true
+        slider.maximumValue = node?.nodalityNode?.maximumValue ?? 1
+        slider.value = node?.nodalityNode?.value
+        ignoreSliderChange = false
     }
     
     func nodeMovedInView(view: SNView, node: SNNode)

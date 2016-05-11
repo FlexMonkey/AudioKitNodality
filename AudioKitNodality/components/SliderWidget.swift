@@ -10,9 +10,8 @@ import UIKit
 
 protocol NodalitySlider
 {
-    var index: Int {get set}
-    var title: String {get set}
     var value: NodeValue? { get }
+    var maximumValue: Double {get set }
     func updateValue(value: NodeValue)
 }
 
@@ -24,16 +23,8 @@ class SliderWidget: UIControl, NodalitySlider
     let minButton = UIButton()
     let maxButton = UIButton()
     
-    var index: Int = -1
-    
-    var title: String = ""
-    {
-        didSet
-        {
-            updateLabel()
-        }
-    }
-    
+    let maximumValueSegmentedControl = UISegmentedControl(items: ["1", "10", "100", "1000", "10000"])
+
     func updateValue(value: NodeValue)
     {
         self.value = value
@@ -45,6 +36,30 @@ class SliderWidget: UIControl, NodalitySlider
         {
             slider.value = Float(value?.numberValue ?? 0)
             updateLabel()
+            
+            sendActionsForControlEvents(.ValueChanged)
+        }
+    }
+    
+    var maximumValue: Double = 1
+    {
+        didSet
+        {
+            maximumValueSegmentedControl.selectedSegmentIndex = Int(ceil(log10(maximumValue)))
+            
+            slider.maximumValue = Float(maximumValue)
+            maxButton.setTitle(" \(maximumValue) ", forState: UIControlState.Normal)
+  
+            if let numberValue = value?.numberValue where numberValue > maximumValue
+            {
+                value = NodeValue.Number(maximumValue)
+            }
+            else
+            {
+                sendActionsForControlEvents(.ValueChanged)
+            }
+            
+            setNeedsLayout()
         }
     }
     
@@ -59,13 +74,13 @@ class SliderWidget: UIControl, NodalitySlider
         
         layer.backgroundColor = UIColor.darkGrayColor().CGColor
         
-        label.textColor = UIColor.lightGrayColor()
+        label.textColor = UIColor.whiteColor()
         
         minButton.setTitle("0", forState: UIControlState.Normal)
         minButton.layer.borderColor = UIColor.lightGrayColor().CGColor
         minButton.layer.borderWidth = 1
 
-        maxButton.setTitle("1", forState: UIControlState.Normal)
+        maxButton.setTitle(" \(maximumValue) ", forState: UIControlState.Normal)
         maxButton.layer.borderColor = UIColor.lightGrayColor().CGColor
         maxButton.layer.borderWidth = 1
         
@@ -75,10 +90,23 @@ class SliderWidget: UIControl, NodalitySlider
         addSubview(minButton)
         addSubview(maxButton)
         
+        maximumValueSegmentedControl.tintColor = UIColor.lightGrayColor()
+        maximumValueSegmentedControl.selectedSegmentIndex = 0
+        maximumValueSegmentedControl.addTarget(
+            self,
+            action: #selector(SliderWidget.maximumValueSegmentedControlChangeHandler),
+            forControlEvents: .ValueChanged)
+        addSubview(maximumValueSegmentedControl)
+        
         layer.shadowColor = UIColor.blackColor().CGColor
         layer.shadowOffset = CGSizeZero
         layer.shadowRadius = 2
         layer.shadowOpacity = 1
+    }
+    
+    func maximumValueSegmentedControlChangeHandler()
+    {
+        maximumValue = pow(10, Double(maximumValueSegmentedControl.selectedSegmentIndex))
     }
     
     func minHandler()
@@ -90,7 +118,7 @@ class SliderWidget: UIControl, NodalitySlider
     
     func maxHandler()
     {
-        slider.value = 1
+        slider.value = Float(maximumValue)
         
         sliderChangeHandler()
     }
@@ -98,13 +126,11 @@ class SliderWidget: UIControl, NodalitySlider
     func sliderChangeHandler()
     {
         value = NodeValue.Number(Double(slider.value))
-        
-        sendActionsForControlEvents(.ValueChanged)
     }
     
     func updateLabel()
     {
-        label.text = title + ": " + (NSString(format: "%.3f", value?.numberValue ?? 0) as String)
+        label.text = (NSString(format: "%.3f", value?.numberValue ?? 0) as String)
     }
     
     override func intrinsicContentSize() -> CGSize
@@ -114,22 +140,35 @@ class SliderWidget: UIControl, NodalitySlider
     
     override func layoutSubviews()
     {
-        label.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height / 2).insetBy(dx: 5, dy: 5)
+        label.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: frame.width,
+            height: frame.height / 2).insetBy(dx: 5, dy: 5)
         
-        minButton.frame = CGRect(x: 4,
+        minButton.frame = CGRect(
+            x: 4,
             y: frame.height - slider.intrinsicContentSize().height * 1.5 + 5,
             width: minButton.intrinsicContentSize().width,
             height: slider.intrinsicContentSize().height)
 
-        maxButton.frame = CGRect(x: frame.width - 4 - maxButton.intrinsicContentSize().width,
+        maxButton.frame = CGRect(
+            x: frame.width - 4 - maxButton.intrinsicContentSize().width,
             y: frame.height - slider.intrinsicContentSize().height * 1.5 + 5,
             width: maxButton.intrinsicContentSize().width,
             height: slider.intrinsicContentSize().height)
         
-        slider.frame = CGRect(x: minButton.intrinsicContentSize().width + 4,
+        slider.frame = CGRect(
+            x: minButton.intrinsicContentSize().width + 4,
             y: (frame.height / 2),
             width: frame.width - minButton.intrinsicContentSize().width - maxButton.intrinsicContentSize().width - 6,
             height: slider.intrinsicContentSize().height).insetBy(dx: 10, dy: 0)
+        
+        maximumValueSegmentedControl.frame = CGRect(
+            x: frame.width - maximumValueSegmentedControl.intrinsicContentSize().width - 4,
+            y: 4,
+            width: maximumValueSegmentedControl.intrinsicContentSize().width,
+            height: maximumValueSegmentedControl.intrinsicContentSize().height)
     }
 }
 

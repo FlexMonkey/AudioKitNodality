@@ -48,60 +48,19 @@ class ItemRenderer: SNItemRenderer
     {
         didSet
         {
-            updateLabel()
+            // updateLabel()
         }
     }
     
     override func reload()
     {
-        updateLabel()
+        // updateLabel()
     }
-    
-    func updateLabel()
-    {
-        if let value = node?.nodalityNode?.value, type = node?.nodalityNode?.type
-        {
-            switch value
-            {
-            case NodeValue.Number(let floatValue):
-                label.text = "\(type) \n\(floatValue)"
-                backgroundColor = UIColor.blueColor() // type.isOperator ? UIColor.blueColor() : UIColor.redColor()
-                label.frame = bounds
-                
-            default:
-                let _ = false
-            
-//            case NodeValue.Color(let colorValue):
-//                // label.text = colorValue?.getHex()
-//                backgroundColor = UIColor.purpleColor()
-//                colorSwatch.alpha = 1
-//                colorSwatch.backgroundColor = colorValue
-//                imageView.hidden = true
-//                
-//                label.frame = CGRect(x: 0,
-//                    y: bounds.height - label.intrinsicContentSize().height - 5,
-//                    width: bounds.width,
-//                    height: label.intrinsicContentSize().height)
-                
-//            case NodeValue.Image(let image):
-//                imageView.image = image
-//                imageView.hidden = false
-//                backgroundColor = UIColor.blackColor()
-            }
-        }
-        else
-        {
-            // TOODO - tidy this up
-//            backgroundColor = node?.nodalityNode?.type == NodeType.Color || node?.nodalityNode?.type == NodeType.ColorAdjust
-//                ? UIColor.purpleColor()
-//                : UIColor.blueColor()
-            
-        }
-    }
+
     
     override func layoutSubviews()
     {
-        updateLabel()
+        // updateLabel()
 
         let linePath = UIBezierPath()
         linePath.moveToPoint(CGPoint(x: 0, y: 0))

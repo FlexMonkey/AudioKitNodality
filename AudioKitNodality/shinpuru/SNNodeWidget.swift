@@ -290,7 +290,7 @@ class SNWidgetTitleBar: UIToolbar
     override init(frame: CGRect)
     {
         label = UIBarButtonItem(title: title, style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
-        
+
         super.init(frame: frame)
 
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)

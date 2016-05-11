@@ -15,8 +15,7 @@
 		3EF7A14A1CE0EF2A0016FA62 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EF7A1491CE0EF2A0016FA62 /* AudioKit.framework */; };
 		3EF7A14B1CE0EF2A0016FA62 /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3EF7A1491CE0EF2A0016FA62 /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3EF7A15F1CE0F5440016FA62 /* SliderWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A14F1CE0F5440016FA62 /* SliderWidget.swift */; };
-		3EF7A1601CE0F5440016FA62 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1511CE0F5440016FA62 /* Classes.swift */; };
-		3EF7A1611CE0F5440016FA62 /* FilterControlsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1521CE0F5440016FA62 /* FilterControlsComponent.swift */; };
+		3EF7A1601CE0F5440016FA62 /* NodeVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1511CE0F5440016FA62 /* NodeVO.swift */; };
 		3EF7A1621CE0F5440016FA62 /* InputOutputRenderers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1531CE0F5440016FA62 /* InputOutputRenderers.swift */; };
 		3EF7A1631CE0F5440016FA62 /* ItemRenderers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1541CE0F5440016FA62 /* ItemRenderers.swift */; };
 		3EF7A1641CE0F5440016FA62 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1551CE0F5440016FA62 /* Model.swift */; };
@@ -53,8 +52,7 @@
 		3EF7A1431CE0EE460016FA62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3EF7A1491CE0EF2A0016FA62 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		3EF7A14F1CE0F5440016FA62 /* SliderWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderWidget.swift; sourceTree = "<group>"; };
-		3EF7A1511CE0F5440016FA62 /* Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Classes.swift; sourceTree = "<group>"; };
-		3EF7A1521CE0F5440016FA62 /* FilterControlsComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterControlsComponent.swift; sourceTree = "<group>"; };
+		3EF7A1511CE0F5440016FA62 /* NodeVO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeVO.swift; sourceTree = "<group>"; };
 		3EF7A1531CE0F5440016FA62 /* InputOutputRenderers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputOutputRenderers.swift; sourceTree = "<group>"; };
 		3EF7A1541CE0F5440016FA62 /* ItemRenderers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemRenderers.swift; sourceTree = "<group>"; };
 		3EF7A1551CE0F5440016FA62 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -123,8 +121,7 @@
 		3EF7A1501CE0F5440016FA62 /* audiokit */ = {
 			isa = PBXGroup;
 			children = (
-				3EF7A1511CE0F5440016FA62 /* Classes.swift */,
-				3EF7A1521CE0F5440016FA62 /* FilterControlsComponent.swift */,
+				3EF7A1511CE0F5440016FA62 /* NodeVO.swift */,
 				3EF7A1531CE0F5440016FA62 /* InputOutputRenderers.swift */,
 				3EF7A1541CE0F5440016FA62 /* ItemRenderers.swift */,
 				3EF7A1551CE0F5440016FA62 /* Model.swift */,
@@ -225,11 +222,10 @@
 				3EF7A16B1CE0F5440016FA62 /* SNView.swift in Sources */,
 				3EF7A1681CE0F5440016FA62 /* SNNodesContainer.swift in Sources */,
 				3EF7A1651CE0F5440016FA62 /* NodeType.swift in Sources */,
-				3EF7A1611CE0F5440016FA62 /* FilterControlsComponent.swift in Sources */,
 				3EF7A16A1CE0F5440016FA62 /* SNRelationshipCurvesLayer.swift in Sources */,
 				3EF7A1671CE0F5440016FA62 /* ShinpuruNodeDataTypes.swift in Sources */,
 				3EF7A13A1CE0EE460016FA62 /* ViewController.swift in Sources */,
-				3EF7A1601CE0F5440016FA62 /* Classes.swift in Sources */,
+				3EF7A1601CE0F5440016FA62 /* NodeVO.swift in Sources */,
 				3EF7A1691CE0F5440016FA62 /* SNNodeWidget.swift in Sources */,
 				3EF7A1661CE0F5440016FA62 /* NodeValue.swift in Sources */,
 				3EF7A1381CE0EE460016FA62 /* AppDelegate.swift in Sources */,
