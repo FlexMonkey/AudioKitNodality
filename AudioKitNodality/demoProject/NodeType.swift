@@ -39,7 +39,7 @@ enum NodeType: String
             return []
             
         case .Output:
-            return [ NodeInputSlot(label: "Input", type: SNNodeNodeType, key: "", defaultValue: 0) ];
+            return [ NodeInputSlot(label: "Input", type: SNNodeNodeType) ];
             
         case .DryWetMixer:
             return [

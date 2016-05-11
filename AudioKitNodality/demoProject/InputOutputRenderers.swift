@@ -52,7 +52,7 @@ class DemoInputRowRenderer: SNInputRowRenderer
             return
         }
         
-        label.text = node.type.inputSlots[index].label + ": "
+        label.text = node.type.inputSlots[index].label
         
         let value = node.getInputValueAt(index)
         
@@ -60,11 +60,12 @@ class DemoInputRowRenderer: SNInputRowRenderer
         {
         case NodeValue.Number(let floatValue):
             let valueAsString = String(format: "%.2f", floatValue!)
-            label.text = label.text! + " \(valueAsString)"
-        
+            label.text = label.text! + (node.type.inputSlots[index].type.typeName == SNNumberTypeName ? ": \(valueAsString)" : "")
+         
         default:
             label.text = inputNode?.nodalityNode?.type.rawValue ?? ""
         }
+        
     }
     
     override func intrinsicContentSize() -> CGSize
