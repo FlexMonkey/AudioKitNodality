@@ -195,7 +195,7 @@ class NodeVO: SNNode
                 
                 (value?.audioKitNode as? AKStringResonator)?.start()
                 (value?.audioKitNode as? AKStringResonator)?.fundamentalFrequency = getInputValueAt(1).numberValue ?? 100
-                (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(1).numberValue ?? 0.95
+                (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(2).numberValue ?? 0.95
             }
             else
             {
@@ -214,9 +214,9 @@ class NodeVO: SNNode
                     audioKitNodeInputs[0] = input
                 }
                 
-//                (value?.audioKitNode as? AKStringResonator)?.start()
-//                (value?.audioKitNode as? AKStringResonator)?.fundamentalFrequency = getInputValueAt(1).numberValue ?? 100
-//                (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(1).numberValue ?? 0.95
+                // (value?.audioKitNode as? AKMoogLadder)?.start()
+                (value?.audioKitNode as? AKMoogLadder)?.cutoffFrequency = getInputValueAt(1).numberValue ?? 1000
+                (value?.audioKitNode as? AKMoogLadder)?.resonance = getInputValueAt(2).numberValue ?? 0.5
             }
             else
             {

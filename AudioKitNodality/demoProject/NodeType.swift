@@ -64,7 +64,9 @@ enum NodeType: String
             
         case .MoogLadder:
             return [
-                NodeInputSlot(label: "Input", type: SNNodeNodeType)]
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType),
+                NodeInputSlot(label: "Resonance", type: SNNodeNumberType)]
         }
     }
     
