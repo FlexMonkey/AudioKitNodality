@@ -18,6 +18,16 @@ class ViewController: UIViewController
     
     var ignoreSliderChange = false
     
+    var createNewNodeLocation: CGPoint?
+    
+    lazy var nodeSelectorModal: NodeSelectorModal =
+    {
+        let modal = NodeSelectorModal()
+        modal.delegate = self
+        
+        return modal
+    }()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -68,6 +78,19 @@ class ViewController: UIViewController
     }
 }
 
+// MARK NodeSelectorModalDelegate
+
+extension ViewController: NodeSelectorModalDelegate
+{
+    func didSelectAudioKitNode(nodeType: NodeType)
+    {
+        let newNode = model.addNodeOfType(nodeType, position: createNewNodeLocation ?? CGPointZero)
+        
+        shinpuruNodeUI.reloadNode(newNode)
+        shinpuruNodeUI.selectedNode = newNode
+    }
+}
+
 // MARK: SNDelegate
 
 extension ViewController: SNDelegate
@@ -111,11 +134,14 @@ extension ViewController: SNDelegate
     
     func nodeCreatedInView(view: SNView, position: CGPoint)
     {
-        let newNode = model.addNodeAt(position)
+        createNewNodeLocation = position
         
-        view.reloadNode(newNode)
+        nodeSelectorModal.popoverPresentationController?.sourceView = self.view
         
-        view.selectedNode = newNode
+        presentViewController(
+            nodeSelectorModal,
+            animated: true,
+            completion: nil)
     }
     
     func nodeDeletedInView(view: SNView, node: SNNode)

@@ -46,32 +46,43 @@ class NodeVO: SNNode
     
     /// For numeric nodes, the slider maximumValue 
     var maximumValue: Double = 1
-
-    required init(name: String, position: CGPoint, model: NodalityModel)
-    {
-        self.model = model
-        
-        super.init(name: type.rawValue, position: position)
-    }
     
-    init(name: String, position: CGPoint, value: NodeValue, model: NodalityModel)
-    {
-        self.model = model
-        
-        super.init(name: type.rawValue, position: position)
-        
-        self.value = value
-    }
+    // NodeVO(name: NodeType.WhiteNoise.rawValue, position: CGPoint(x: 10, y: 10), type: NodeType.WhiteNoise, inputs: [], model: model)
     
-    init(name: String, position: CGPoint, type: NodeType = NodeType.Numeric, inputs: [SNNode?]?, model: NodalityModel)
+    required init(type: NodeType, model: NodalityModel)
     {
         self.model = model
-        
-        super.init(name: type.rawValue, position: position)
+        super.init(name: type.rawValue, position: CGPointZero)
         
         self.type = type
-        self.inputs = inputs
+        self.inputs = []
     }
+
+//    required init(name: String, position: CGPoint, model: NodalityModel)
+//    {
+//        self.model = model
+//        
+//        super.init(name: type.rawValue, position: position)
+//    }
+//    
+//    init(name: String, position: CGPoint, value: NodeValue, model: NodalityModel)
+//    {
+//        self.model = model
+//        
+//        super.init(name: type.rawValue, position: position)
+//        
+//        self.value = value
+//    }
+//    
+//    init(name: String, position: CGPoint, type: NodeType = NodeType.Numeric, inputs: [SNNode?]?, model: NodalityModel)
+//    {
+//        self.model = model
+//        
+//        super.init(name: type.rawValue, position: position)
+//        
+//        self.type = type
+//        self.inputs = inputs
+//    }
 
     required init(name: String, position: CGPoint)
     {
@@ -248,11 +259,9 @@ class NodeVO: SNNode
     func getInputValueAt(index: Int) -> NodeValue
     {
         let returnValue: NodeValue
-        
+ 
         if inputs == nil || index >= inputs?.count || inputs?[index] == nil || inputs?[index]?.nodalityNode == nil
         {
-            print("aaaa", NodeValue.Number(type.inputSlots[index].defaultValue))
-            
             returnValue = NodeValue.Number(type.inputSlots[index].defaultValue)
         }
         else if let value = inputs?[index]?.nodalityNode?.value
@@ -287,14 +296,12 @@ struct NodeInputSlot
 {
     let label: String
     let type: NodeValue
-    let key: String
     let defaultValue: Double
     
-    init (label: String, type: NodeValue, key: String, defaultValue: Double)
+    init (label: String, type: NodeValue, defaultValue: Double)
     {
         self.label = label
         self.type = type
-        self.key = key
         self.defaultValue = defaultValue
     }
     
@@ -302,7 +309,6 @@ struct NodeInputSlot
     {
         self.label = label
         self.type = type
-        self.key = ""
         self.defaultValue = 0
     }
 }

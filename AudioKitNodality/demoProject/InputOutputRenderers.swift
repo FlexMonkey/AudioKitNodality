@@ -59,9 +59,9 @@ class DemoInputRowRenderer: SNInputRowRenderer
         switch value
         {
         case NodeValue.Number(let floatValue):
-            let valueAsString = String(format: "%.2f", floatValue!)
+            let valueAsString = String(format: "%.2f", floatValue ?? 0)
             label.text = label.text! + (node.type.inputSlots[index].type.typeName == SNNumberTypeName ? ": \(valueAsString)" : "")
-         
+            
         default:
             label.text = inputNode?.nodalityNode?.type.rawValue ?? ""
         }

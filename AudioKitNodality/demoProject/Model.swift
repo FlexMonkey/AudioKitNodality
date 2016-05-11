@@ -28,18 +28,27 @@ class NodalityModel
     
     init() 
     {
-        let whiteNoise = NodeVO(name: "White Noise", position: CGPoint(x: 10, y: 10), type: NodeType.WhiteNoise, inputs: [], model: self)
-        let oscillator = NodeVO(name: "Oscillator", position: CGPoint(x: 50, y: 370), type: NodeType.Oscillator, inputs: [], model: self)
+        let amplitude = NodeType.createNodeOfType(.Numeric, model: self)
+        let frequency = NodeType.createNodeOfType(.Numeric, model: self)
         
-        let mixer = NodeVO(name: "DryWetMixer", position: CGPoint(x: 450, y: 170), type: NodeType.DryWetMixer, inputs: [], model: self)
-        
-        let stringResonator = NodeVO(name: "MoogLadder", position: CGPoint(x: 450, y: 170), type: NodeType.MoogLadder, inputs: [], model: self)
-        
-        let output = NodeVO(name: "Output", position: CGPoint(x: 950, y: 50), type: NodeType.Output, inputs: [], model: self)
-        
-        nodes = [whiteNoise, oscillator, mixer, output, stringResonator] // [whiteNoise, mixer, oscillator, stringResonator, output]
+        let oscillator = NodeType.createNodeOfType(.Oscillator, model: self)
+        let output = NodeType.createNodeOfType(.Output, model: self)
 
-        whiteNoise.recalculate()
+        frequency.position = CGPoint(x: 30, y: 200)
+        amplitude.position = CGPoint(x: 50, y: 400)
+        oscillator.position = CGPoint(x: 400, y: 100)
+        output.position = CGPoint(x: 700, y: 300)
+      
+        frequency.value = NodeValue.Number(440)
+        frequency.maximumValue = 1000
+        amplitude.value = NodeValue.Number(0.01)
+        
+        toggleRelationship(frequency, targetNode: oscillator, targetIndex: 1)
+        toggleRelationship(amplitude, targetNode: oscillator, targetIndex: 0)
+        toggleRelationship(oscillator, targetNode: output, targetIndex: 0)
+        
+        nodes = [frequency, amplitude, oscillator, output]
+
         oscillator.recalculate()
     }
     
@@ -96,10 +105,13 @@ class NodalityModel
         return updatedNodes
     }
     
-    func addNodeAt(position: CGPoint) -> NodeVO
+    func addNodeOfType(nodeType: NodeType, position: CGPoint) -> NodeVO
     {
-        let newNode = NodeVO(name: "New!", position: position, value: NodeValue.Number(1), model: self)
+        let newNode = NodeType.createNodeOfType(nodeType, model: self)
+        newNode.position = position
         nodes.append(newNode)
+        
+        newNode.recalculate()
         
         return newNode
     }

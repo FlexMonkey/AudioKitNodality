@@ -6,6 +6,8 @@
 //  Copyright © 2015 Simon Gladman. All rights reserved.
 //
 
+import UIKit
+
 let SNNodeNumberType = NodeValue.Number(nil)
 let SNNodeNodeType = NodeValue.Node(nil)
 let SNNodeOutputType = NodeValue.Output
@@ -45,28 +47,28 @@ enum NodeType: String
             return [
                 NodeInputSlot(label: "Input 1", type: SNNodeNodeType),
                 NodeInputSlot(label: "Input 2", type: SNNodeNodeType),
-                NodeInputSlot(label: "Balance", type: SNNodeNumberType, key: "balance", defaultValue: 0.5)]
+                NodeInputSlot(label: "Balance", type: SNNodeNumberType, defaultValue: 0.5)]
             
         case .Oscillator:
             return [
-                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, key: "amplitude", defaultValue: 0.5),
-                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, key: "frequency", defaultValue: 440)]
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5),
+                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, defaultValue: 440)]
             
         case .WhiteNoise:
             return [
-                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, key: "amplitude", defaultValue: 0.5)]
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5)]
             
         case .StringResonator:
             return [
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
-                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, key: "fundamentalFrequency", defaultValue: 100),
-                NodeInputSlot(label: "Feedback", type: SNNodeNumberType, key: "feedback", defaultValue: 0.95)]
+                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, defaultValue: 100),
+                NodeInputSlot(label: "Feedback", type: SNNodeNumberType, defaultValue: 0.95)]
             
         case .MoogLadder:
             return [
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
-                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, key: "cutoffFrequency", defaultValue: 1000),
-                NodeInputSlot(label: "Resonance", type: SNNodeNumberType, key: "resonance", defaultValue: 0.5)]
+                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 1000),
+                NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0.5)]
         }
     }
     
@@ -75,5 +77,11 @@ enum NodeType: String
         return inputSlots.count
     }
     
+    static let types = [NodeType.Numeric, NodeType.Oscillator, NodeType.WhiteNoise, NodeType.MoogLadder, NodeType.DryWetMixer]
+        .sort{$0.rawValue > $1.rawValue}
     
+    static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO
+    {
+        return NodeVO(type: nodeType, model: model)
+    }
 }
