@@ -15,15 +15,15 @@ enum NodeValue
     case Node(AKNode?)
     case Output
  
-    var numberValue: Double?
+    var numberValue: Double
     {
         switch self
         {
         case .Number(let value):
-            return value
+            return value ?? 0
             
         default:
-            return nil
+            return 0
         }
     }
     

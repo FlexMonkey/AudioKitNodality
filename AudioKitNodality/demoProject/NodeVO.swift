@@ -121,7 +121,7 @@ class NodeVO: SNNode
         switch type
         {
         case .Numeric:
-            value = NodeValue.Number(value?.numberValue ?? Double(0))
+            value = NodeValue.Number(value?.numberValue)
         
         case .Output:
             if let input = getInputValueAt(0).audioKitNode where AudioKit.output != getInputValueAt(0).audioKitNode
@@ -136,7 +136,7 @@ class NodeVO: SNNode
         case .WhiteNoise:
             let whiteNoise = value?.audioKitNode as? AKWhiteNoise ?? AKWhiteNoise()
             
-            whiteNoise.amplitude = getInputValueAt(0).numberValue ?? 0.5
+            whiteNoise.amplitude = getInputValueAt(0).numberValue
             
             if whiteNoise.isStopped
             {
@@ -148,8 +148,8 @@ class NodeVO: SNNode
         case .Oscillator:
             let oscillator = value?.audioKitNode as? AKOscillator ?? AKOscillator()
             
-             oscillator.amplitude = getInputValueAt(0).numberValue ?? 0.5
-             oscillator.frequency = getInputValueAt(1).numberValue ?? 440
+             oscillator.amplitude = getInputValueAt(0).numberValue
+             oscillator.frequency = getInputValueAt(1).numberValue
     
             if oscillator.isStopped
             {
@@ -162,7 +162,7 @@ class NodeVO: SNNode
             if let input0 = getInputValueAt(0).audioKitNode,
                 input1 = getInputValueAt(1).audioKitNode
             {
-                let balance = getInputValueAt(2).numberValue ?? 0.5
+                let balance = getInputValueAt(2).numberValue
                 
                 if audioKitNodeInputs[0] != input0 || audioKitNodeInputs[1] != input1
                 {
@@ -194,8 +194,8 @@ class NodeVO: SNNode
                 }
                 
                 (value?.audioKitNode as? AKStringResonator)?.start()
-                (value?.audioKitNode as? AKStringResonator)?.fundamentalFrequency = getInputValueAt(1).numberValue ?? 100
-                (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(2).numberValue ?? 0.95
+                (value?.audioKitNode as? AKStringResonator)?.fundamentalFrequency = getInputValueAt(1).numberValue
+                (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(2).numberValue
             }
             else
             {
@@ -215,8 +215,8 @@ class NodeVO: SNNode
                 }
                 
                 // (value?.audioKitNode as? AKMoogLadder)?.start()
-                (value?.audioKitNode as? AKMoogLadder)?.cutoffFrequency = getInputValueAt(1).numberValue ?? 1000
-                (value?.audioKitNode as? AKMoogLadder)?.resonance = getInputValueAt(2).numberValue ?? 0.5
+                (value?.audioKitNode as? AKMoogLadder)?.cutoffFrequency = getInputValueAt(1).numberValue
+                (value?.audioKitNode as? AKMoogLadder)?.resonance = getInputValueAt(2).numberValue
             }
             else
             {
@@ -244,28 +244,16 @@ class NodeVO: SNNode
         
         self.model.updateDescendantNodes(self)
     }
-
-    // A dictionary of values by index not generated from an input
-    var freeValues = [Int: NodeValue]()
-    {
-        didSet
-        {
-            recalculate()
-        }
-    }
     
     func getInputValueAt(index: Int) -> NodeValue
     {
-        let returnValue:NodeValue
+        let returnValue: NodeValue
         
-        if let freeValue = freeValues[index] where
-            (inputs == nil || index >= inputs?.count || inputs?[index] == nil || inputs?[index]?.nodalityNode == nil)
+        if inputs == nil || index >= inputs?.count || inputs?[index] == nil || inputs?[index]?.nodalityNode == nil
         {
-            returnValue = freeValue
-        }
-        else if inputs == nil || index >= inputs?.count || inputs?[index] == nil || inputs?[index]?.nodalityNode == nil
-        {
-            returnValue = NodeValue.Number(0)
+            print("aaaa", NodeValue.Number(type.inputSlots[index].defaultValue))
+            
+            returnValue = NodeValue.Number(type.inputSlots[index].defaultValue)
         }
         else if let value = inputs?[index]?.nodalityNode?.value
         {
@@ -299,8 +287,25 @@ struct NodeInputSlot
 {
     let label: String
     let type: NodeValue
+    let key: String
+    let defaultValue: Double
+    
+    init (label: String, type: NodeValue, key: String, defaultValue: Double)
+    {
+        self.label = label
+        self.type = type
+        self.key = key
+        self.defaultValue = defaultValue
+    }
+    
+    init (label: String, type: NodeValue)
+    {
+        self.label = label
+        self.type = type
+        self.key = ""
+        self.defaultValue = 0
+    }
 }
-
 
 
 let SNWidgetWidth: CGFloat = 200

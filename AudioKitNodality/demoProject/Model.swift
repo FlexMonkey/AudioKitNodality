@@ -38,16 +38,7 @@ class NodalityModel
         let output = NodeVO(name: "Output", position: CGPoint(x: 950, y: 50), type: NodeType.Output, inputs: [], model: self)
         
         nodes = [whiteNoise, oscillator, mixer, output, stringResonator] // [whiteNoise, mixer, oscillator, stringResonator, output]
-        
-        whiteNoise.freeValues[0] = NodeValue.Number(0.5)
-        oscillator.freeValues[0] = NodeValue.Number(0.5)
-        oscillator.freeValues[1] = NodeValue.Number(440)
-        
-        stringResonator.freeValues[1] = NodeValue.Number(100)
-        stringResonator.freeValues[2] = NodeValue.Number(0.95)
-        
-        mixer.freeValues[2] = NodeValue.Number(0.5)
-        
+
         whiteNoise.recalculate()
         oscillator.recalculate()
     }

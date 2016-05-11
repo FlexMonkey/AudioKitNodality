@@ -30,7 +30,7 @@ enum NodeType: String
     
     // Mandatory output
     case Output
-
+    
     var inputSlots: [NodeInputSlot]
     {
         switch self
@@ -39,34 +39,34 @@ enum NodeType: String
             return []
             
         case .Output:
-            return [ NodeInputSlot(label: "Input", type: SNNodeNodeType) ];
+            return [ NodeInputSlot(label: "Input", type: SNNodeNodeType, key: "", defaultValue: 0) ];
             
         case .DryWetMixer:
             return [
                 NodeInputSlot(label: "Input 1", type: SNNodeNodeType),
                 NodeInputSlot(label: "Input 2", type: SNNodeNodeType),
-                NodeInputSlot(label: "Balance", type: SNNodeNumberType)]
+                NodeInputSlot(label: "Balance", type: SNNodeNumberType, key: "balance", defaultValue: 0.5)]
             
         case .Oscillator:
             return [
-                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType),
-                NodeInputSlot(label: "Frequency", type: SNNodeNumberType)]
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, key: "amplitude", defaultValue: 0.5),
+                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, key: "frequency", defaultValue: 440)]
             
         case .WhiteNoise:
             return [
-                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType)]
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, key: "amplitude", defaultValue: 0.5)]
             
         case .StringResonator:
             return [
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
-                NodeInputSlot(label: "Frequency", type: SNNodeNumberType),
-                NodeInputSlot(label: "Feedback", type: SNNodeNumberType)]
+                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, key: "fundamentalFrequency", defaultValue: 100),
+                NodeInputSlot(label: "Feedback", type: SNNodeNumberType, key: "feedback", defaultValue: 0.95)]
             
         case .MoogLadder:
             return [
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
-                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType),
-                NodeInputSlot(label: "Resonance", type: SNNodeNumberType)]
+                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, key: "cutoffFrequency", defaultValue: 1000),
+                NodeInputSlot(label: "Resonance", type: SNNodeNumberType, key: "resonance", defaultValue: 0.5)]
         }
     }
     
@@ -75,5 +75,5 @@ enum NodeType: String
         return inputSlots.count
     }
     
-
+    
 }
