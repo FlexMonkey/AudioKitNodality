@@ -33,11 +33,11 @@ class NodalityModel
         
         let mixer = NodeVO(name: "DryWetMixer", position: CGPoint(x: 450, y: 170), type: NodeType.DryWetMixer, inputs: [nil, nil, nil], model: self)
         
-        let stringResonator = NodeVO(name: "StringResonator", position: CGPoint(x: 450, y: 170), type: NodeType.StringResonator, inputs: [whiteNoise], model: self)
+        let stringResonator = NodeVO(name: "StringResonator", position: CGPoint(x: 450, y: 170), type: NodeType.StringResonator, inputs: [nil], model: self)
         
         let output = NodeVO(name: "Output", position: CGPoint(x: 950, y: 50), type: NodeType.Output, inputs: [nil], model: self)
         
-        nodes = [whiteNoise, oscillator, mixer, output] // [whiteNoise, mixer, oscillator, stringResonator, output]
+        nodes = [whiteNoise, oscillator, mixer, output, stringResonator] // [whiteNoise, mixer, oscillator, stringResonator, output]
         
         whiteNoise.freeValues[0] = NodeValue.Number(0.5)
         oscillator.freeValues[0] = NodeValue.Number(0.5)

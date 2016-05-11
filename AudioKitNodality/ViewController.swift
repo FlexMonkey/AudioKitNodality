@@ -30,7 +30,7 @@ class ViewController: UIViewController
 //        
 //        let reverb = AKStringResonator(pink)
 ////        reverb.loadFactoryPreset(.LargeChamber)
-//        reverb.start()
+////        reverb.start()
 //        
 //        AudioKit.output = reverb
 //        AudioKit.start()

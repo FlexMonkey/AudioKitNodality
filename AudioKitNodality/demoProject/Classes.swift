@@ -142,9 +142,7 @@ class NodeVO: SNNode
             
              oscillator.amplitude = getInputValueAt(0).numberValue ?? 0.5
              oscillator.frequency = getInputValueAt(1).numberValue ?? 440
-            
-            print(oscillator, oscillator.amplitude, oscillator.frequency, oscillator.isStarted)
-            
+    
             if oscillator.isStopped
             {
                 oscillator.start()
@@ -162,7 +160,7 @@ class NodeVO: SNNode
                 {
                     AudioKit.stop()
                     
-                    value = NodeValue.Node(AKDryWetMixer(input0, input1, balance: balance)); print("Recreate DryWetMixer")
+                    value = NodeValue.Node(AKDryWetMixer(input0, input1, balance: balance))
                     
                     audioKitNodeInputs[0] = input0
                     audioKitNodeInputs[1] = input1
@@ -176,21 +174,28 @@ class NodeVO: SNNode
             }
             
         case .StringResonator:
-            if let input = getInputValueAt(0).audioKitNode where !(value?.audioKitNode is  AKStringResonator)    // where getInputValueAt(0).audioKitNode != input
+            if let input = getInputValueAt(0).audioKitNode
             {
                 value = NodeValue.Node(AKStringResonator(input))
-            }
-            
-            if let stringResonator = value?.audioKitNode as? AKStringResonator
-            {
-//                if stringResonator.isStopped
-//                {
-//                    stringResonator.start()
-//                }
                 
-                stringResonator.fundamentalFrequency = getInputValueAt(1).numberValue ?? 0
-                stringResonator.feedback = getInputValueAt(2).numberValue ?? 0
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKStringResonator(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                (value?.audioKitNode as? AKStringResonator)?.start()
+                (value?.audioKitNode as? AKStringResonator)?.fundamentalFrequency = getInputValueAt(1).numberValue ?? 100
+                (value?.audioKitNode as? AKStringResonator)?.feedback = getInputValueAt(1).numberValue ?? 0.95
             }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+
         }
         
         if let inputs = inputs
