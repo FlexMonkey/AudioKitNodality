@@ -115,6 +115,10 @@ class NodeVO: SNNode
 
                 AudioKit.start()
             }
+            else if getInputValueAt(0).audioKitNode == nil
+            {
+                AudioKit.stop()
+            }
            
         // Generators
             
@@ -158,6 +162,37 @@ class NodeVO: SNNode
             }
             
             value = NodeValue.Node(fmoscillator)
+            
+        case .SawtoothOscillator:
+            let sawtoothoscillator = value?.audioKitNode as? AKSawtoothOscillator ?? AKSawtoothOscillator()
+            
+            sawtoothoscillator.frequency = getInputValueAt(0).numberValue
+            sawtoothoscillator.amplitude = getInputValueAt(1).numberValue
+            sawtoothoscillator.detuningOffset = getInputValueAt(2).numberValue
+            sawtoothoscillator.detuningMultiplier = getInputValueAt(3).numberValue
+            
+            if sawtoothoscillator.isStopped
+            {
+                sawtoothoscillator.start()
+            }
+            
+            value = NodeValue.Node(sawtoothoscillator)
+            
+        case .SquareWaveOscillator:
+            let squareoscillator = value?.audioKitNode as? AKSquareWaveOscillator ?? AKSquareWaveOscillator()
+            
+            squareoscillator.frequency = getInputValueAt(0).numberValue
+            squareoscillator.amplitude = getInputValueAt(1).numberValue
+            squareoscillator.detuningOffset = getInputValueAt(2).numberValue
+            squareoscillator.detuningMultiplier = getInputValueAt(3).numberValue
+            squareoscillator.pulseWidth = getInputValueAt(4).numberValue
+            
+            if squareoscillator.isStopped
+            {
+                squareoscillator.start()
+            }
+            
+            value = NodeValue.Node(squareoscillator)
             
         // Filters
             

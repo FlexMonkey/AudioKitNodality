@@ -32,6 +32,8 @@ enum NodeType: String
     case Oscillator
     case WhiteNoise
     case FMOscillator
+    case SawtoothOscillator
+    case SquareWaveOscillator
     
     // Filters
     case DryWetMixer
@@ -85,6 +87,23 @@ enum NodeType: String
                 NodeInputSlot(label: "Mod. Mult.", type: SNNodeNumberType, defaultValue: 1.0),
                 NodeInputSlot(label: "Mod. Index", type: SNNodeNumberType, defaultValue: 1.0),
                 NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5)]
+            
+        case .SawtoothOscillator:
+            return [
+                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, defaultValue: 440),
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5),
+                NodeInputSlot(label: "Detuning Offset", type: SNNodeNumberType, defaultValue: 0),
+                NodeInputSlot(label: "Detuning Mult.", type: SNNodeNumberType, defaultValue: 1)
+            ]
+            
+        case .SquareWaveOscillator:
+            return [
+                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, defaultValue: 440),
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5),
+                NodeInputSlot(label: "Detuning Offset", type: SNNodeNumberType, defaultValue: 0),
+                NodeInputSlot(label: "Detuning Mult.", type: SNNodeNumberType, defaultValue: 1),
+                NodeInputSlot(label: "Pulse Width.", type: SNNodeNumberType, defaultValue: 0.5)
+            ]
 
         }
     }
@@ -97,7 +116,7 @@ enum NodeType: String
     static let types = [
         NodeType.Numeric, NodeType.Oscillator, NodeType.WhiteNoise,
         NodeType.MoogLadder, NodeType.DryWetMixer, NodeType.StringResonator,
-        FMOscillator
+        FMOscillator, SawtoothOscillator, SquareWaveOscillator
         ].sort{$1.rawValue > $0.rawValue}
     
     static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO

@@ -13,6 +13,7 @@ class NodeSelectorModal: UIViewController
     weak var delegate: NodeSelectorModalDelegate?
     
     let collectionView: UICollectionView
+    let closeButton: UIButton
     
     required init()
     {
@@ -24,10 +25,18 @@ class NodeSelectorModal: UIViewController
         collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
         collectionView.registerClass(NodeSelectorItemRenderer.self, forCellWithReuseIdentifier: "Cell")
         
+        closeButton = UIButton()
+        closeButton.setTitle("Close", forState: .Normal)
+        
         super.init(nibName: nil, bundle: nil)
         
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        closeButton.addTarget(
+            self,
+            action: #selector(NodeSelectorModal.close),
+            forControlEvents: .TouchDown)
         
         modalPresentationStyle = UIModalPresentationStyle.FormSheet
         modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
@@ -35,6 +44,12 @@ class NodeSelectorModal: UIViewController
         collectionView.backgroundColor = UIColor.darkGrayColor()
         
         view.addSubview(collectionView)
+        view.addSubview(closeButton)
+    }
+    
+    func close()
+    {
+         dismissViewControllerAnimated(true, completion: nil)
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -44,7 +59,17 @@ class NodeSelectorModal: UIViewController
     
     override func viewDidLayoutSubviews()
     {
-        collectionView.frame = view.bounds
+        collectionView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: view.frame.width,
+            height: view.frame.height - closeButton.intrinsicContentSize().height)
+        
+        closeButton.frame = CGRect(
+            x: view.frame.width - closeButton.intrinsicContentSize().width - 10,
+            y: view.frame.height - closeButton.intrinsicContentSize().height,
+            width: closeButton.intrinsicContentSize().width,
+            height: closeButton.intrinsicContentSize().height)
     }
 }
 
