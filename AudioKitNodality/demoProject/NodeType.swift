@@ -34,11 +34,15 @@ enum NodeType: String
     case FMOscillator
     case SawtoothOscillator
     case SquareWaveOscillator
+    case TriangleOscillator
     
     // Filters
     case DryWetMixer
     case StringResonator
     case MoogLadder
+    case BitCrusher
+    case Reverb
+    case CostelloReverb
     
     // Mandatory output
     case Output
@@ -96,6 +100,14 @@ enum NodeType: String
                 NodeInputSlot(label: "Detuning Mult.", type: SNNodeNumberType, defaultValue: 1)
             ]
             
+        case .TriangleOscillator:
+            return [
+                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, defaultValue: 440),
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5),
+                NodeInputSlot(label: "Detuning Offset", type: SNNodeNumberType, defaultValue: 0),
+                NodeInputSlot(label: "Detuning Mult.", type: SNNodeNumberType, defaultValue: 1)
+            ]
+            
         case .SquareWaveOscillator:
             return [
                 NodeInputSlot(label: "Frequency", type: SNNodeNumberType, defaultValue: 440),
@@ -105,6 +117,25 @@ enum NodeType: String
                 NodeInputSlot(label: "Pulse Width.", type: SNNodeNumberType, defaultValue: 0.5)
             ]
 
+        case .BitCrusher:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Bit Depth", type: SNNodeNumberType, defaultValue: 8),
+                NodeInputSlot(label: "Sample Rate", type: SNNodeNumberType, defaultValue: 10000)
+            ]
+            
+        case .Reverb:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Dry Wet Mix", type: SNNodeNumberType, defaultValue: 0.5)
+            ]
+            
+        case .CostelloReverb:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Feedback", type: SNNodeNumberType, defaultValue: 0.6),
+                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 4000),
+            ]
         }
     }
     
@@ -116,7 +147,8 @@ enum NodeType: String
     static let types = [
         NodeType.Numeric, NodeType.Oscillator, NodeType.WhiteNoise,
         NodeType.MoogLadder, NodeType.DryWetMixer, NodeType.StringResonator,
-        FMOscillator, SawtoothOscillator, SquareWaveOscillator
+        FMOscillator, SawtoothOscillator, SquareWaveOscillator, TriangleOscillator,
+        BitCrusher, Reverb, CostelloReverb
         ].sort{$1.rawValue > $0.rawValue}
     
     static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO

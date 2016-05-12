@@ -36,8 +36,8 @@ class NodalityModel
 
         frequency.position = CGPoint(x: 30, y: 200)
         amplitude.position = CGPoint(x: 50, y: 400)
-        oscillator.position = CGPoint(x: 400, y: 100)
-        output.position = CGPoint(x: 700, y: 300)
+        oscillator.position = CGPoint(x: 500, y: 100)
+        output.position = CGPoint(x: 900, y: 300)
       
         frequency.value = NodeValue.Number(440)
         frequency.maximumValue = 1000

@@ -178,6 +178,21 @@ class NodeVO: SNNode
             
             value = NodeValue.Node(sawtoothoscillator)
             
+        case .TriangleOscillator:
+            let triangleoscillator = value?.audioKitNode as? AKTriangleOscillator ?? AKTriangleOscillator()
+            
+            triangleoscillator.frequency = getInputValueAt(0).numberValue
+            triangleoscillator.amplitude = getInputValueAt(1).numberValue
+            triangleoscillator.detuningOffset = getInputValueAt(2).numberValue
+            triangleoscillator.detuningMultiplier = getInputValueAt(3).numberValue
+            
+            if triangleoscillator.isStopped
+            {
+                triangleoscillator.start()
+            }
+            
+            value = NodeValue.Node(triangleoscillator)
+            
         case .SquareWaveOscillator:
             let squareoscillator = value?.audioKitNode as? AKSquareWaveOscillator ?? AKSquareWaveOscillator()
             
@@ -264,7 +279,78 @@ class NodeVO: SNNode
             {
                 value = NodeValue.Node(nil)
             }
+            
+        case .BitCrusher:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKBitCrusher(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKBitCrusher
+                {
+                    audioKitNode.bitDepth = getInputValueAt(1).numberValue
+                    audioKitNode.sampleRate = getInputValueAt(2).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+        case .Reverb:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKReverb(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKReverb
+                {
+                    audioKitNode.dryWetMix = getInputValueAt(1).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+        case .CostelloReverb:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKCostelloReverb(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKCostelloReverb
+                {
+                    audioKitNode.feedback = getInputValueAt(1).numberValue
+                    audioKitNode.cutoffFrequency = getInputValueAt(2).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
         }
+        
+        // ----
         
         if let inputs = inputs
         {
@@ -343,7 +429,7 @@ struct NodeInputSlot
 }
 
 
-let SNWidgetWidth: CGFloat = 200
+let SNWidgetWidth: CGFloat = 250
 
 
 
