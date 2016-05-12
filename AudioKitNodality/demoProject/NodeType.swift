@@ -40,7 +40,7 @@ enum NodeType: String
     case SawtoothOscillator
     case SquareWaveOscillator
     case TriangleOscillator
-    
+
     // Filters
     case DryWetMixer
     case StringResonator
@@ -52,6 +52,9 @@ enum NodeType: String
     case Equalizer
     case AutoWah
     case RingModulator
+    case VariableDelay
+    case LowPassFilter
+    case HighPassFilter
     
     // Mandatory output
     case Output
@@ -180,6 +183,21 @@ enum NodeType: String
                 NodeInputSlot(label: "Frequency 1", type: SNNodeNumberType, defaultValue: 440),
                 NodeInputSlot(label: "Balance", type: SNNodeNumberType, defaultValue: 0.5),
                 NodeInputSlot(label: "Mix", type: SNNodeNumberType, defaultValue: 1.0)]
+            
+        case .VariableDelay:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Time", type: SNNodeNumberType, defaultValue:1),
+                NodeInputSlot(label: "Feedback", type: SNNodeNumberType, defaultValue: 0),
+            ]
+            
+        case .LowPassFilter, .HighPassFilter:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Cutoff Freq.", type: SNNodeNumberType, defaultValue: 6900),
+                NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0),
+                NodeInputSlot(label: "Dry Wet Mix", type: SNNodeNumberType, defaultValue: 100)
+            ]
         }
     }
     
@@ -189,13 +207,13 @@ enum NodeType: String
     }
     
     static let types = [
-        Numeric, NumericDouble, NumericHalve, 
+        Numeric, NumericDouble, NumericHalve,
         Oscillator, WhiteNoise, PinkNoise,
         MoogLadder, DryWetMixer, StringResonator,
         FMOscillator, SawtoothOscillator, SquareWaveOscillator, TriangleOscillator,
         BitCrusher, Reverb, CostelloReverb, Decimator,
-        Equalizer, AutoWah, RingModulator
-        ].sort{$1.rawValue > $0.rawValue}
+        Equalizer, AutoWah, RingModulator, VariableDelay, LowPassFilter, HighPassFilter
+    ].sort{$1.rawValue > $0.rawValue}
     
     static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO
     {

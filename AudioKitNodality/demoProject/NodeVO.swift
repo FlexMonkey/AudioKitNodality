@@ -96,7 +96,7 @@ class NodeVO: SNNode
             return SNNodeTypeName
         }
     }
-    
+
     var audioKitNodeInputs = [Int: AKNode]()
     
     func recalculate()
@@ -456,6 +456,77 @@ class NodeVO: SNNode
                     audioKitNode.frequency2 = getInputValueAt(2).numberValue
                     audioKitNode.balance = getInputValueAt(3).numberValue
                     audioKitNode.mix = getInputValueAt(4).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+        case .VariableDelay:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKVariableDelay(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKVariableDelay
+                {
+                    audioKitNode.time = getInputValueAt(1).numberValue
+                    audioKitNode.feedback = getInputValueAt(2).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+        case .LowPassFilter:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKLowPassFilter(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKLowPassFilter
+                {
+                    audioKitNode.cutoffFrequency = getInputValueAt(1).numberValue
+                    audioKitNode.resonance = getInputValueAt(2).numberValue
+                    audioKitNode.dryWetMix = getInputValueAt(3).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+        case .HighPassFilter:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKHighPassFilter(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKHighPassFilter
+                {
+                    audioKitNode.cutoffFrequency = getInputValueAt(1).numberValue
+                    audioKitNode.resonance = getInputValueAt(2).numberValue
+                    audioKitNode.dryWetMix = getInputValueAt(3).numberValue
                 }
             }
             else
