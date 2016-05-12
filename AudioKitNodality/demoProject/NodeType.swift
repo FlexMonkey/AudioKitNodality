@@ -5,6 +5,14 @@
 //  Created by Simon Gladman on 13/10/2015.
 //  Copyright © 2015 Simon Gladman. All rights reserved.
 //
+//  Adding a new node type: 
+//      * Create enum
+//      * Define input slots
+//      * Add to `types`
+//      * Define behaviour in NodeVO.recalculate()
+//
+//  Excluded:
+//      * AKRolandTB303Filter
 
 import UIKit
 
@@ -21,15 +29,14 @@ enum NodeType: String
     case Numeric
     
     // Generators
-    
     case Oscillator
     case WhiteNoise
+    case FMOscillator
     
     // Filters
     case DryWetMixer
     case StringResonator
     case MoogLadder
-    case RolandTB303Filter
     
     // Mandatory output
     case Output
@@ -70,14 +77,15 @@ enum NodeType: String
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
                 NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 1000),
                 NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0.5)]
-            
-        case .RolandTB303Filter:
+        
+        case .FMOscillator:
             return [
-                NodeInputSlot(label: "Input", type: SNNodeNodeType),
-                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 500),
-                NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0.5),
-                // NodeInputSlot(label: "Distortion", type: SNNodeNumberType, defaultValue: 2.0),
-                NodeInputSlot(label: "Resonance Asymmetry", type: SNNodeNumberType, defaultValue: 0.5)]
+                NodeInputSlot(label: "Base Freq.", type: SNNodeNumberType, defaultValue: 440),
+                NodeInputSlot(label: "Carrier Mult.", type: SNNodeNumberType, defaultValue: 1.0),
+                NodeInputSlot(label: "Mod. Mult.", type: SNNodeNumberType, defaultValue: 1.0),
+                NodeInputSlot(label: "Mod. Index", type: SNNodeNumberType, defaultValue: 1.0),
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5)]
+
         }
     }
     
@@ -89,7 +97,8 @@ enum NodeType: String
     static let types = [
         NodeType.Numeric, NodeType.Oscillator, NodeType.WhiteNoise,
         NodeType.MoogLadder, NodeType.DryWetMixer, NodeType.StringResonator,
-        NodeType.RolandTB303Filter].sort{$1.rawValue > $0.rawValue}
+        FMOscillator
+        ].sort{$1.rawValue > $0.rawValue}
     
     static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO
     {

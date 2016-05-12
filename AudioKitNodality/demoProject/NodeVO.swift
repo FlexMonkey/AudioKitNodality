@@ -47,8 +47,6 @@ class NodeVO: SNNode
     /// For numeric nodes, the slider maximumValue 
     var maximumValue: Double = 1
     
-    // NodeVO(name: NodeType.WhiteNoise.rawValue, position: CGPoint(x: 10, y: 10), type: NodeType.WhiteNoise, inputs: [], model: model)
-    
     required init(type: NodeType, model: NodalityModel)
     {
         self.model = model
@@ -57,32 +55,6 @@ class NodeVO: SNNode
         self.type = type
         self.inputs = []
     }
-
-//    required init(name: String, position: CGPoint, model: NodalityModel)
-//    {
-//        self.model = model
-//        
-//        super.init(name: type.rawValue, position: position)
-//    }
-//    
-//    init(name: String, position: CGPoint, value: NodeValue, model: NodalityModel)
-//    {
-//        self.model = model
-//        
-//        super.init(name: type.rawValue, position: position)
-//        
-//        self.value = value
-//    }
-//    
-//    init(name: String, position: CGPoint, type: NodeType = NodeType.Numeric, inputs: [SNNode?]?, model: NodalityModel)
-//    {
-//        self.model = model
-//        
-//        super.init(name: type.rawValue, position: position)
-//        
-//        self.type = type
-//        self.inputs = inputs
-//    }
 
     required init(name: String, position: CGPoint)
     {
@@ -143,6 +115,8 @@ class NodeVO: SNNode
 
                 AudioKit.start()
             }
+           
+        // Generators
             
         case .WhiteNoise:
             let whiteNoise = value?.audioKitNode as? AKWhiteNoise ?? AKWhiteNoise()
@@ -168,6 +142,24 @@ class NodeVO: SNNode
             }
             
             value = NodeValue.Node(oscillator)
+            
+        case .FMOscillator:
+            let fmoscillator = value?.audioKitNode as? AKFMOscillator ?? AKFMOscillator()
+            
+            fmoscillator.baseFrequency = getInputValueAt(0).numberValue
+            fmoscillator.carrierMultiplier = getInputValueAt(1).numberValue
+            fmoscillator.modulatingMultiplier = getInputValueAt(2).numberValue
+            fmoscillator.modulationIndex = getInputValueAt(3).numberValue
+            fmoscillator.amplitude = getInputValueAt(4).numberValue
+            
+            if fmoscillator.isStopped
+            {
+                fmoscillator.start()
+            }
+            
+            value = NodeValue.Node(fmoscillator)
+            
+        // Filters
             
         case .DryWetMixer:
             if let input0 = getInputValueAt(0).audioKitNode,
@@ -237,32 +229,6 @@ class NodeVO: SNNode
             {
                 value = NodeValue.Node(nil)
             }
-            
-        case .RolandTB303Filter:
-            if let input = getInputValueAt(0).audioKitNode
-            {
-                if audioKitNodeInputs[0] != input
-                {
-                    AudioKit.stop()
-                    
-                    value = NodeValue.Node(AKRolandTB303Filter(input))
-                    
-                    audioKitNodeInputs[0] = input
-                }
-                
-                if let audioKitNode = value?.audioKitNode as? AKRolandTB303Filter
-                {
-                    audioKitNode.cutoffFrequency = getInputValueAt(1).numberValue
-                    audioKitNode.resonance = getInputValueAt(2).numberValue
-                    // audioKitNode.distortion = getInputValueAt(3).numberValue // deviation from this can cause stability issues.
-                    audioKitNode.resonanceAsymmetry = getInputValueAt(3).numberValue
-                }
-            }
-            else
-            {
-                value = NodeValue.Node(nil)
-            }
-            
         }
         
         if let inputs = inputs
