@@ -131,7 +131,9 @@ class DemoOutputRowRenderer: SNOutputRowRenderer
     {
         let value = String(format: "%.2f", node?.nodalityNode?.value?.numberValue ?? 0)
         
-        label.text = node?.nodalityNode?.type == .Numeric ? value : node?.nodalityNode?.outputType.typeName
+        let outputTypeName = node?.nodalityNode?.outputTypeName ?? ""
+        
+        label.text = (outputTypeName == SNNumberTypeName) ? value : node?.nodalityNode?.outputType.typeName
     }
     
     override func layoutSubviews()

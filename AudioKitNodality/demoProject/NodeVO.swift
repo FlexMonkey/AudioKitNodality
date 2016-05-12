@@ -77,7 +77,7 @@ class NodeVO: SNNode
     {
         switch type
         {
-        case .Numeric:
+        case .Numeric, .NumericDouble, .NumericHalve:
             return SNNodeNumberType
 
         default:
@@ -89,7 +89,7 @@ class NodeVO: SNNode
     {
         switch type
         {
-        case .Numeric:
+        case .Numeric, .NumericDouble, .NumericHalve:
             return SNNumberTypeName
             
         default:
@@ -105,6 +105,12 @@ class NodeVO: SNNode
         {
         case .Numeric:
             value = NodeValue.Number(value?.numberValue)
+            
+        case .NumericDouble:
+            value = NodeValue.Number(getInputValueAt(0).numberValue * 2)
+            
+        case .NumericHalve:
+            value = NodeValue.Number(getInputValueAt(0).numberValue / 2)
         
         case .Output:
             if let input = getInputValueAt(0).audioKitNode where AudioKit.output != getInputValueAt(0).audioKitNode
@@ -133,6 +139,18 @@ class NodeVO: SNNode
             }
             
             value = NodeValue.Node(whiteNoise)
+            
+        case .PinkNoise:
+            let pinkNoise = value?.audioKitNode as? AKPinkNoise ?? AKPinkNoise()
+            
+            pinkNoise.amplitude = getInputValueAt(0).numberValue
+            
+            if pinkNoise.isStopped
+            {
+                pinkNoise.start()
+            }
+            
+            value = NodeValue.Node(pinkNoise)
             
         case .Oscillator:
             let oscillator = value?.audioKitNode as? AKOscillator ?? AKOscillator()
@@ -348,6 +366,102 @@ class NodeVO: SNNode
                 value = NodeValue.Node(nil)
             }
             
+        case .Decimator:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKDecimator(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKDecimator
+                {
+                    audioKitNode.decimation = getInputValueAt(1).numberValue
+                    audioKitNode.rounding = getInputValueAt(2).numberValue
+                    audioKitNode.mix = getInputValueAt(3).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+        case .Equalizer:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKEqualizerFilter(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKEqualizerFilter
+                {
+                    audioKitNode.centerFrequency = getInputValueAt(1).numberValue
+                    audioKitNode.bandwidth = getInputValueAt(2).numberValue
+                    audioKitNode.gain = getInputValueAt(3).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+        case .AutoWah:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKAutoWah(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKAutoWah
+                {
+                    audioKitNode.wah = getInputValueAt(1).numberValue
+                    audioKitNode.mix = getInputValueAt(2).numberValue
+                    audioKitNode.amplitude = getInputValueAt(3).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+            
+        case .RingModulator:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKRingModulator(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKRingModulator
+                {
+                    audioKitNode.frequency1 = getInputValueAt(1).numberValue
+                    audioKitNode.frequency2 = getInputValueAt(2).numberValue
+                    audioKitNode.balance = getInputValueAt(3).numberValue
+                    audioKitNode.mix = getInputValueAt(4).numberValue
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
         }
         
         // ----

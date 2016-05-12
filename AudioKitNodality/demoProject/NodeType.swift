@@ -10,6 +10,7 @@
 //      * Define input slots
 //      * Add to `types`
 //      * Define behaviour in NodeVO.recalculate()
+//      * If node output is numeric, add to `outputType` and `outputTypeName` in NodeVO
 //
 //  Excluded:
 //      * AKRolandTB303Filter
@@ -26,11 +27,15 @@ let SNOutputTypeName = "Output"
 
 enum NodeType: String
 {
+    // Numerics
     case Numeric
+    case NumericDouble
+    case NumericHalve
     
     // Generators
     case Oscillator
     case WhiteNoise
+    case PinkNoise
     case FMOscillator
     case SawtoothOscillator
     case SquareWaveOscillator
@@ -43,6 +48,10 @@ enum NodeType: String
     case BitCrusher
     case Reverb
     case CostelloReverb
+    case Decimator
+    case Equalizer
+    case AutoWah
+    case RingModulator
     
     // Mandatory output
     case Output
@@ -53,6 +62,9 @@ enum NodeType: String
         {
         case .Numeric:
             return []
+            
+        case .NumericDouble, .NumericHalve:
+            return [ NodeInputSlot(label: "x", type: SNNodeNumberType) ];
             
         case .Output:
             return [ NodeInputSlot(label: "Input", type: SNNodeNodeType) ];
@@ -68,14 +80,14 @@ enum NodeType: String
                 NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5),
                 NodeInputSlot(label: "Frequency", type: SNNodeNumberType, defaultValue: 440)]
             
-        case .WhiteNoise:
+        case .WhiteNoise, .PinkNoise:
             return [
                 NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.5)]
             
         case .StringResonator:
             return [
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
-                NodeInputSlot(label: "Frequency", type: SNNodeNumberType, defaultValue: 100),
+                NodeInputSlot(label: "Fundamental Freq.", type: SNNodeNumberType, defaultValue: 100),
                 NodeInputSlot(label: "Feedback", type: SNNodeNumberType, defaultValue: 0.95)]
             
         case .MoogLadder:
@@ -136,6 +148,38 @@ enum NodeType: String
                 NodeInputSlot(label: "Feedback", type: SNNodeNumberType, defaultValue: 0.6),
                 NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 4000),
             ]
+            
+        case .Decimator:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Decimation", type: SNNodeNumberType, defaultValue: 0.5),
+                NodeInputSlot(label: "Rounding", type: SNNodeNumberType, defaultValue: 0),
+                NodeInputSlot(label: "Mix", type: SNNodeNumberType, defaultValue: 1),
+            ]
+            
+        case .Equalizer:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Center Frequency", type: SNNodeNumberType, defaultValue: 1000),
+                NodeInputSlot(label: "Bandwidth", type: SNNodeNumberType, defaultValue: 100),
+                NodeInputSlot(label: "Gain", type: SNNodeNumberType, defaultValue: 10)
+            ]
+            
+        case .AutoWah:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Wah", type: SNNodeNumberType, defaultValue: 0),
+                NodeInputSlot(label: "Mix", type: SNNodeNumberType, defaultValue: 1),
+                NodeInputSlot(label: "Amplitude", type: SNNodeNumberType, defaultValue: 0.1)
+            ]
+            
+        case .RingModulator:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Frequency 1", type: SNNodeNumberType, defaultValue: 220),
+                NodeInputSlot(label: "Frequency 1", type: SNNodeNumberType, defaultValue: 440),
+                NodeInputSlot(label: "Balance", type: SNNodeNumberType, defaultValue: 0.5),
+                NodeInputSlot(label: "Mix", type: SNNodeNumberType, defaultValue: 1.0)]
         }
     }
     
@@ -145,10 +189,12 @@ enum NodeType: String
     }
     
     static let types = [
-        NodeType.Numeric, NodeType.Oscillator, NodeType.WhiteNoise,
-        NodeType.MoogLadder, NodeType.DryWetMixer, NodeType.StringResonator,
+        Numeric, NumericDouble, NumericHalve, 
+        Oscillator, WhiteNoise, PinkNoise,
+        MoogLadder, DryWetMixer, StringResonator,
         FMOscillator, SawtoothOscillator, SquareWaveOscillator, TriangleOscillator,
-        BitCrusher, Reverb, CostelloReverb
+        BitCrusher, Reverb, CostelloReverb, Decimator,
+        Equalizer, AutoWah, RingModulator
         ].sort{$1.rawValue > $0.rawValue}
     
     static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO
