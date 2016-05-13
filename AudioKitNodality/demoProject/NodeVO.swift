@@ -330,7 +330,7 @@ class NodeVO: SNNode
                 if let audioKitNode = value?.audioKitNode as? AKStringResonator
                 {
                     audioKitNode.fundamentalFrequency = getInputValueAt(1).numberValue
-                    audioKitNode.feedback = getInputValueAt(2).numberValue
+                    audioKitNode.feedback = min(getInputValueAt(2).numberValue, 1.0)
                 }
             }
             else
@@ -596,6 +596,31 @@ class NodeVO: SNNode
             {
                 value = NodeValue.Node(nil)
             }
+        
+        case .TB303:
+            if let input = getInputValueAt(0).audioKitNode
+            {
+                if audioKitNodeInputs[0] != input
+                {
+                    AudioKit.stop()
+                    
+                    value = NodeValue.Node(AKRolandTB303Filter(input))
+                    
+                    audioKitNodeInputs[0] = input
+                }
+                
+                if let audioKitNode = value?.audioKitNode as? AKRolandTB303Filter
+                {
+                    audioKitNode.cutoffFrequency = max(getInputValueAt(1).numberValue, 440)
+                    audioKitNode.resonance = min(getInputValueAt(2).numberValue, 1)
+                    audioKitNode.resonanceAsymmetry = min(getInputValueAt(3).numberValue, 1)
+                }
+            }
+            else
+            {
+                value = NodeValue.Node(nil)
+            }
+        
         }
         
         // ----
@@ -617,8 +642,6 @@ class NodeVO: SNNode
         }
         
         self.model.updateDescendantNodes(self)
-        
-        // toggleAudioPlayers() //dkfjhskfjhsfkj
     }
     
     func getInputValueAt(index: Int) -> NodeValue

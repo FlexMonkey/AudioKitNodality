@@ -11,9 +11,6 @@
 //      * Add to `types`
 //      * Define behaviour in NodeVO.recalculate()
 //      * If node output is numeric, add to `outputType` and `outputTypeName` in NodeVO
-//
-//  Excluded:
-//      * AKRolandTB303Filter
 
 import UIKit
 
@@ -57,6 +54,7 @@ enum NodeType: String
     case VariableDelay
     case LowPassFilter
     case HighPassFilter
+    case TB303
     
     // Mandatory output
     case Output
@@ -101,9 +99,16 @@ enum NodeType: String
         case .MoogLadder:
             return [
                 NodeInputSlot(label: "Input", type: SNNodeNodeType),
-                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 1000),
+                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 500),
                 NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0.5)]
-        
+
+        case .TB303:
+            return [
+                NodeInputSlot(label: "Input", type: SNNodeNodeType),
+                NodeInputSlot(label: "Cut Off Freq.", type: SNNodeNumberType, defaultValue: 1000),
+                NodeInputSlot(label: "Resonance", type: SNNodeNumberType, defaultValue: 0.5),
+                NodeInputSlot(label: "Resonance Asymmetry", type: SNNodeNumberType, defaultValue: 0.5)]
+            
         case .FMOscillator:
             return [
                 NodeInputSlot(label: "Base Freq.", type: SNNodeNumberType, defaultValue: 440),
@@ -218,7 +223,7 @@ enum NodeType: String
         FMOscillator, SawtoothOscillator, SquareWaveOscillator, TriangleOscillator,
         BitCrusher, Reverb, CostelloReverb, Decimator,
         Equalizer, AutoWah, RingModulator, VariableDelay, LowPassFilter, HighPassFilter,
-        AudioPlayer
+        AudioPlayer, TB303
     ].sort{$1.rawValue > $0.rawValue}
     
     static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO
