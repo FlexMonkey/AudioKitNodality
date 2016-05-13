@@ -99,6 +99,36 @@ class NodeVO: SNNode
 
     var audioKitNodeInputs = [Int: AKNode]()
     
+    func stopAudioPlayers()
+    {
+        for node in model.nodes where node.value?.audioKitNode is AKAudioPlayer
+        {
+           (node.value?.audioKitNode as! AKAudioPlayer).stop(); print("ALL STOP!")
+        }
+    }
+    
+    // loop over all AKAudioPlayer nodes. If they're part of the network play them...
+    func toggleAudioPlayers()
+    {
+        guard let masterOutput = model.nodes.filter({ $0.type == .Output }).first else
+        {
+            return
+        }
+        
+        for node in model.nodes where node.value?.audioKitNode is AKAudioPlayer
+        {
+            if masterOutput.isAscendant(node)
+            {
+                (node.value?.audioKitNode as! AKAudioPlayer).start()
+                (node.value?.audioKitNode as! AKAudioPlayer).play(); print("PLAY!!!")
+            }
+            else
+            {
+                (node.value?.audioKitNode as! AKAudioPlayer).stop(); print("STOP!")
+            }
+        }
+    }
+    
     func recalculate()
     {
         switch type
@@ -113,20 +143,33 @@ class NodeVO: SNNode
             value = NodeValue.Number(getInputValueAt(0).numberValue / 2)
         
         case .Output:
-            if let input = getInputValueAt(0).audioKitNode where AudioKit.output != getInputValueAt(0).audioKitNode
+            if let input = getInputValueAt(0).audioKitNode where audioKitNodeInputs[0] != input
             {
+                stopAudioPlayers()
                 AudioKit.stop()
                 
                 AudioKit.output = input; print("AudioKit.output =", input)
 
+                audioKitNodeInputs[0] = input
+                
                 AudioKit.start()
+                
+                toggleAudioPlayers()
             }
             else if getInputValueAt(0).audioKitNode == nil
             {
+                stopAudioPlayers()
                 AudioKit.stop()
             }
            
         // Generators
+            
+        case .AudioPlayer:
+            let bundle = NSBundle.mainBundle()
+            let player = AKAudioPlayer(bundle.pathForResource("psb02_17", ofType: "wav")!)
+            player.looping = true
+
+            value = NodeValue.Node(player)
             
         case .WhiteNoise:
             let whiteNoise = value?.audioKitNode as? AKWhiteNoise ?? AKWhiteNoise()
@@ -554,6 +597,8 @@ class NodeVO: SNNode
         }
         
         self.model.updateDescendantNodes(self)
+        
+        // toggleAudioPlayers() //dkfjhskfjhsfkj
     }
     
     func getInputValueAt(index: Int) -> NodeValue

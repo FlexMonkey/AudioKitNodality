@@ -40,6 +40,8 @@ enum NodeType: String
     case SawtoothOscillator
     case SquareWaveOscillator
     case TriangleOscillator
+    
+    case AudioPlayer
 
     // Filters
     case DryWetMixer
@@ -63,7 +65,7 @@ enum NodeType: String
     {
         switch self
         {
-        case .Numeric:
+        case .Numeric, .AudioPlayer:
             return []
             
         case .NumericDouble, .NumericHalve:
@@ -212,7 +214,8 @@ enum NodeType: String
         MoogLadder, DryWetMixer, StringResonator,
         FMOscillator, SawtoothOscillator, SquareWaveOscillator, TriangleOscillator,
         BitCrusher, Reverb, CostelloReverb, Decimator,
-        Equalizer, AutoWah, RingModulator, VariableDelay, LowPassFilter, HighPassFilter
+        Equalizer, AutoWah, RingModulator, VariableDelay, LowPassFilter, HighPassFilter,
+        AudioPlayer
     ].sort{$1.rawValue > $0.rawValue}
     
     static func createNodeOfType(nodeType: NodeType, model: NodalityModel) -> NodeVO
