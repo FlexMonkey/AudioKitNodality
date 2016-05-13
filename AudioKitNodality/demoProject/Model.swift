@@ -22,6 +22,8 @@ import UIKit
 
 class NodalityModel
 {
+    static let loops = ["bassloop", "drumloop", "guitarloop", "mixloop"]
+    
     var nodes = [NodeVO]()
     
     weak var view: SNView!
@@ -131,9 +133,6 @@ class NodalityModel
             }
         }
 
-        // view.refreshNodes(....)
-        // TODO - does this need to be recursive????
-        
         let updatedNodes = Array(Set<NodeVO>(updatedDatedNodes.flatMap{ $0 }))
         
         updatedNodes.forEach

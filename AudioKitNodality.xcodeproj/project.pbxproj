@@ -8,7 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3E6F79301CE47A840026562B /* screenshot.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F792F1CE47A840026562B /* screenshot.jpg */; };
-		3E6F79331CE5A9C10026562B /* psb02_17.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F79321CE5A9C10026562B /* psb02_17.wav */; };
+		3E6F793B1CE5B8270026562B /* bassloop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F79361CE5B8270026562B /* bassloop.wav */; };
+		3E6F793C1CE5B8270026562B /* drumloop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F79371CE5B8270026562B /* drumloop.wav */; };
+		3E6F793D1CE5B8270026562B /* guitarloop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F79381CE5B8270026562B /* guitarloop.wav */; };
+		3E6F793E1CE5B8270026562B /* leadloop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F79391CE5B8270026562B /* leadloop.wav */; };
+		3E6F793F1CE5B8270026562B /* mixloop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3E6F793A1CE5B8270026562B /* mixloop.wav */; };
 		3EA7E8C01CE3858800AD82E4 /* NodeSelectorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA7E8BF1CE3858800AD82E4 /* NodeSelectorModal.swift */; };
 		3EF7A1381CE0EE460016FA62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1371CE0EE460016FA62 /* AppDelegate.swift */; };
 		3EF7A13A1CE0EE460016FA62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A1391CE0EE460016FA62 /* ViewController.swift */; };
@@ -47,7 +51,11 @@
 
 /* Begin PBXFileReference section */
 		3E6F792F1CE47A840026562B /* screenshot.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = screenshot.jpg; sourceTree = "<group>"; };
-		3E6F79321CE5A9C10026562B /* psb02_17.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = psb02_17.wav; path = loops/psb02_17.wav; sourceTree = "<group>"; };
+		3E6F79361CE5B8270026562B /* bassloop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bassloop.wav; path = loops/bassloop.wav; sourceTree = "<group>"; };
+		3E6F79371CE5B8270026562B /* drumloop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = drumloop.wav; path = loops/drumloop.wav; sourceTree = "<group>"; };
+		3E6F79381CE5B8270026562B /* guitarloop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = guitarloop.wav; path = loops/guitarloop.wav; sourceTree = "<group>"; };
+		3E6F79391CE5B8270026562B /* leadloop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = leadloop.wav; path = loops/leadloop.wav; sourceTree = "<group>"; };
+		3E6F793A1CE5B8270026562B /* mixloop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = mixloop.wav; path = loops/mixloop.wav; sourceTree = "<group>"; };
 		3EA7E8BF1CE3858800AD82E4 /* NodeSelectorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeSelectorModal.swift; sourceTree = "<group>"; };
 		3EF7A1341CE0EE460016FA62 /* AudioKitNodality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioKitNodality.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EF7A1371CE0EE460016FA62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,7 +94,11 @@
 		3E6F79311CE5A9820026562B /* loops */ = {
 			isa = PBXGroup;
 			children = (
-				3E6F79321CE5A9C10026562B /* psb02_17.wav */,
+				3E6F79361CE5B8270026562B /* bassloop.wav */,
+				3E6F79371CE5B8270026562B /* drumloop.wav */,
+				3E6F79381CE5B8270026562B /* guitarloop.wav */,
+				3E6F79391CE5B8270026562B /* leadloop.wav */,
+				3E6F793A1CE5B8270026562B /* mixloop.wav */,
 			);
 			name = loops;
 			sourceTree = "<group>";
@@ -221,9 +233,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EF7A1421CE0EE460016FA62 /* LaunchScreen.storyboard in Resources */,
+				3E6F793E1CE5B8270026562B /* leadloop.wav in Resources */,
+				3E6F793C1CE5B8270026562B /* drumloop.wav in Resources */,
 				3EF7A13F1CE0EE460016FA62 /* Assets.xcassets in Resources */,
+				3E6F793F1CE5B8270026562B /* mixloop.wav in Resources */,
+				3E6F793B1CE5B8270026562B /* bassloop.wav in Resources */,
 				3E6F79301CE47A840026562B /* screenshot.jpg in Resources */,
-				3E6F79331CE5A9C10026562B /* psb02_17.wav in Resources */,
+				3E6F793D1CE5B8270026562B /* guitarloop.wav in Resources */,
 				3EF7A13D1CE0EE460016FA62 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

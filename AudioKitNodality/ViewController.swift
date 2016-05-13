@@ -11,6 +11,7 @@ import AudioKit
 
 class ViewController: UIViewController
 {
+    let loopsSegmentedControl = UISegmentedControl(items: NodalityModel.loops)
     let slider = SliderWidget()
     let shinpuruNodeUI = SNView()
     
@@ -44,19 +45,35 @@ class ViewController: UIViewController
             forControlEvents: .ValueChanged)
         view.addSubview(slider)
     
+        loopsSegmentedControl.backgroundColor = UIColor.darkGrayColor()
+        loopsSegmentedControl.tintColor = UIColor.lightGrayColor()
+        loopsSegmentedControl.alpha = 0
+        loopsSegmentedControl.selectedSegmentIndex = 0
+        loopsSegmentedControl.addTarget(
+            self,
+            action: #selector(ViewController.loopsSegmentedControlChangeHandler),
+            forControlEvents: .ValueChanged)
+        view.addSubview(loopsSegmentedControl)
     }
 
+    func loopsSegmentedControlChangeHandler()
+    {
+        if let selectedNode = shinpuruNodeUI.selectedNode?.nodalityNode where selectedNode.type == .AudioPlayer
+        {
+            selectedNode.loopIndex = loopsSegmentedControl.selectedSegmentIndex
+            
+            selectedNode.recalculate()
+        }
+    }
+    
     func sliderChangeHandler()
     {
-        if let selectedNode = shinpuruNodeUI.selectedNode?.nodalityNode where selectedNode.type == .Numeric
+        if let selectedNode = shinpuruNodeUI.selectedNode?.nodalityNode where selectedNode.type == .Numeric && !ignoreSliderChange
         {
-            if !ignoreSliderChange
-            {
-                selectedNode.value = NodeValue.Number(Double(slider.slider.value))
-                selectedNode.maximumValue = slider.maximumValue
-
-                model.updateDescendantNodes(selectedNode).forEach{ shinpuruNodeUI.reloadNode($0) }
-            }
+            selectedNode.value = NodeValue.Number(Double(slider.slider.value))
+            selectedNode.maximumValue = slider.maximumValue
+            
+            model.updateDescendantNodes(selectedNode).forEach{ shinpuruNodeUI.reloadNode($0) }
         }
     }
     
@@ -75,6 +92,13 @@ class ViewController: UIViewController
             y: view.frame.height - slider.intrinsicContentSize().height - 20,
             width: view.frame.width,
             height: slider.intrinsicContentSize().height).insetBy(dx: 20, dy: 0)
+        
+        loopsSegmentedControl.frame = CGRect(
+            x: 0,
+            y: view.frame.height - slider.intrinsicContentSize().height - 20,
+            width: view.frame.width,
+            height: slider.intrinsicContentSize().height).insetBy(dx: 20, dy: 0)
+
     }
 }
 
@@ -120,11 +144,17 @@ extension ViewController: SNDelegate
         UIView.animateWithDuration(0.25)
         {
             self.slider.alpha = node?.nodalityNode?.type == .Numeric ? 1.0 : 0.0
+            
+            self.loopsSegmentedControl.alpha = node?.nodalityNode?.type == .AudioPlayer ? 1.0 : 0.0
         }
+        
         ignoreSliderChange = true
         slider.maximumValue = node?.nodalityNode?.maximumValue ?? 1
         slider.value = node?.nodalityNode?.value
         ignoreSliderChange = false
+        
+        loopsSegmentedControl.selectedSegmentIndex = node?.nodalityNode?.loopIndex ?? 0
+        
     }
     
     func nodeMovedInView(view: SNView, node: SNNode)

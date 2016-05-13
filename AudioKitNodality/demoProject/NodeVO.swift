@@ -47,6 +47,9 @@ class NodeVO: SNNode
     /// For numeric nodes, the slider maximumValue 
     var maximumValue: Double = 1
     
+    /// For AudioPlayer nodes, the index of the loop
+    var loopIndex = 0 
+    
     required init(type: NodeType, model: NodalityModel)
     {
         self.model = model
@@ -98,12 +101,13 @@ class NodeVO: SNNode
     }
 
     var audioKitNodeInputs = [Int: AKNode]()
+    var loopName: String = ""
     
     func stopAudioPlayers()
     {
         for node in model.nodes where node.value?.audioKitNode is AKAudioPlayer
         {
-           (node.value?.audioKitNode as! AKAudioPlayer).stop(); print("ALL STOP!")
+           (node.value?.audioKitNode as! AKAudioPlayer).stop()
         }
     }
     
@@ -120,13 +124,20 @@ class NodeVO: SNNode
             if masterOutput.isAscendant(node)
             {
                 (node.value?.audioKitNode as! AKAudioPlayer).start()
-                (node.value?.audioKitNode as! AKAudioPlayer).play(); print("PLAY!!!")
+                (node.value?.audioKitNode as! AKAudioPlayer).playFrom(0)
             }
             else
             {
-                (node.value?.audioKitNode as! AKAudioPlayer).stop(); print("STOP!")
+                (node.value?.audioKitNode as! AKAudioPlayer).stop()
             }
         }
+    }
+
+    var audioPlayers: [AKAudioPlayer]
+    {
+        return model.nodes
+            .filter{ $0.value?.audioKitNode is AKAudioPlayer }
+            .map{  ($0.value?.audioKitNode as? AKAudioPlayer)! }
     }
     
     func recalculate()
@@ -165,11 +176,20 @@ class NodeVO: SNNode
         // Generators
             
         case .AudioPlayer:
-            let bundle = NSBundle.mainBundle()
-            let player = AKAudioPlayer(bundle.pathForResource("psb02_17", ofType: "wav")!)
-            player.looping = true
+            let loopName = NodalityModel.loops[loopIndex]
+            
+            if loopName != self.loopName
+            {
+                let bundle = NSBundle.mainBundle()
+                let player = AKAudioPlayer(bundle.pathForResource(loopName, ofType: "wav")!)
+                player.looping = true
+                
+                self.loopName = loopName
+                value = NodeValue.Node(player)
+            }
 
-            value = NodeValue.Node(player)
+            (value?.audioKitNode as? AKAudioPlayer)?.volume = getInputValueAt(0).numberValue
+
             
         case .WhiteNoise:
             let whiteNoise = value?.audioKitNode as? AKWhiteNoise ?? AKWhiteNoise()

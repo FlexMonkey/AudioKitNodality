@@ -65,7 +65,7 @@ enum NodeType: String
     {
         switch self
         {
-        case .Numeric, .AudioPlayer:
+        case .Numeric:
             return []
             
         case .NumericDouble, .NumericHalve:
@@ -73,6 +73,9 @@ enum NodeType: String
             
         case .Output:
             return [ NodeInputSlot(label: "Input", type: SNNodeNodeType) ];
+            
+        case .AudioPlayer:
+            return [ NodeInputSlot(label: "Volume", type: SNNodeNumberType, defaultValue: 0.5) ];
             
         case .DryWetMixer:
             return [
